@@ -1,16 +1,21 @@
 # careers section data
 # if you don't have language feature(language.yml is empty), ignore "i18n" items
-- name: Google
-  link: http://www.google.com/
-  date: July 2017 - <i class="fa fa-clock-o" aria-hidden="true" title="Until Now"></i>
-  job: Programming Internship
+- name: Cornell University
+  link: http://library.cornell.edu/
+  date: 2018 - Now
+  job: Social Science and Geospatial Data Librarian
 
-- name: Facebook
+- name: University of Michigan
   link: http://www.facebook.com/
-  date: May 2014 - July 2017
-  job: Web Assistant
+  date: 2016 - 2018
+  job: Data Visualization Intern, Digital Project Studio
 
-- name: SAP
-  link: https://www.sap.com/
-  date: 2010 - 2014
-  job: Software Developer
+- name: City University of Seattle
+  link: https://library.cityu.edu
+  date: 2015 - 2016
+  job: Academic Technology Assistant
+
+- name: Berkman Klein Center for Internet and Society at Harvard University
+  link: https://cyber.harvard.edu/
+  date: 2013 - 2014
+  job: Research Assistant
