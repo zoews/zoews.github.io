@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
+title:  "STILL UNDER CONSTRUCTION - check back mid-July :p"
 date:   2015-08-18 15:07:19
 categories: [tutorial]
 comments: true
