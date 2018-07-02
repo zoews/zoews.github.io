@@ -210,21 +210,21 @@
     <div class="col l4 offset-l1">
         <div class="row">
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-<h1><span data-i18n="skills.my_skills">Skills</span></h1>
+<h1><span data-i18n="skills.my_skills">Blob of Skills and Curiosities</span></h1>
 <canvas id="cs" height="500" width="500"></canvas>    
 <script>
     var ctx = document.getElementById("cs");
     var data = {
-    labels: "Motivation, GitHub, Java, HTML/CSS, Docker, Python, Y, Z".split(","),
+    labels: "Python, GitHub, R, NLP, Infoviz, ML, SQL, Pandas, Writing, Spark".split(","),
     datasets: [{
-        label: "Ability",
+        label: "xp",
         backgroundColor: "rgba(179,181,198,0.2)",
         borderColor: "#3385FF",
         pointBackgroundColor: "#3385FF",
         pointBorderColor: "#fff",
         pointHoverBackgroundColor: "#3385FF",
         pointHoverBorderColor: "#3385FF",
-        data: [100, 65, 70, 60, 60, 55, 20, 20]
+        data: [4, 4, 2, 4, 3, 2, 3, 4, 5, 3]
         }]
     };
     var myRadarChart = new Chart(ctx, {
@@ -233,8 +233,8 @@
     options: {
         scale: {
             responsive: true,
-            ticks: {min: 0, max: 100},
-            lineArc: false,
+            ticks: {min: 0, max: 5, display: false},
+            lineArc: true,
             pointLabels: {fontSize: 14},
         },
         scaleFontSize: 0,

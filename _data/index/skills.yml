@@ -1,6 +1,6 @@
 # skills section data
 
-label: Ability
+label: xp
 id : cs
-aspects: Motivation, GitHub, Java, HTML/CSS, Docker, Python, Y, Z
-percentage: 100, 65, 70, 60, 60, 55, 20, 20
+aspects: Python, GitHub, R, NLP, Infoviz, ML, SQL, Pandas, Writing, Spark
+percentage: 4, 4, 2, 4, 3, 2, 3, 4, 5, 3
