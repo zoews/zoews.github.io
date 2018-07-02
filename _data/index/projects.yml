@@ -1,4 +1,15 @@
-- name: leonids
-  descr: "Bacon ipsum dolor sit amet doner meatball jowl short ribs, chicken prosciutto salami frankfurter. Pig drumstick turducken short ribs, brisket meatloaf ham hock shankle andouille corned beef strip steak. Venison ham bresaola strip steak. Pork belly ribeye prosciutto t-bone."
+- name: Visualization of the NASA Space Shuttle program
+  descr: "Tools used: Python, Cytoscape (Network analysis), Tableau."
   image: pong.png
-  github: https://github.com/renyuanz/leonids
+  website: https://clarklabs.lib.umich.edu/2017/11/08/using_processing_visualize_space_exploration/
+
+- name: From Networks to Scrapbooks - Data Visualization Consulting
+  descr: "Tools used Python, Cytoscape (Network analysis), Tableau."
+  image: pong.png
+  website: https://clarklabs.lib.umich.edu/2017/05/05/from-networks-to-scrapbooks-a-case-study-of-data-visualization-consulting-part-1/
+ 
+- name: REPARATIVE - A /#JamForLeelah Twine Submission (itch.io)
+  descr: "A game about reparative therapy, narratives, gender, and kindness"
+  image: pong.png
+  website: http://jamforleelah81.itch.io/reparative
+
