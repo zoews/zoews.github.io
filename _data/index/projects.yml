@@ -1,16 +1,16 @@
 - name: Exploratory Text Analysis of the 'Sexual Harassment in Academia' Dataset (2018)
   descr: "I investigated the 3,000+ text survey responses to sexual harassment reports in higher ed. I used a variety of NLP/ML methods including feature analysis of a random forest classifier, LDA topic modeling, and n-gram generation to investigate social science research questions."
-  image: pong.png
+  image: nlp_proj.png
   website: https://drive.google.com/file/d/1t62xSjLV_Vy8mxhgb_eZW_BwoCpp_wF5/view?usp=sharing
 
 - name: Visualization of the NASA Space Shuttle program (2017)
   descr: "'...As an inaugural project to get our digital projects studio thinking and managing a project, we used a dataset that recorded the distance traveled by each space shuttle launch from 1981 – 2011 and worked to visualize the total miles traveled for each shuttle as a hypothetical race to the red planet...''"
-  image: pong.png
+  image: nasa.png
   website: https://clarklabs.lib.umich.edu/2017/11/08/using_processing_visualize_space_exploration/
 
  
 - name: REPARATIVE - A /#JamForLeelah Twine Submission (itch.io) (2015)
   descr: "Newly hired by Reparative Faith Counseling, you take your first unsupervised client. How the sessions go is up to you. (This is a short game about trans youth, narratives, gender, and kindness)"
-  image: pong.png
+  image: reparative.png
   website: http://jamforleelah81.itch.io/reparative
 
