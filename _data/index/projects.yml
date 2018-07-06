@@ -1,5 +1,5 @@
 - name: Exploratory Text Analysis of the 'Sexual Harassment in Academia' Dataset (2018)
-  descr: "This semester-long data analysis project investigated the 3,000+ text survey responses to sexual harassment reports in higher ed. I used a variety of NLP/ML methods including feature analysis of a random forest classifier, LDA topic modeling, and n-gram generation to investigate social science research questions."
+  descr: "I investigated the 3,000+ text survey responses to sexual harassment reports in higher ed. I used a variety of NLP/ML methods including feature analysis of a random forest classifier, LDA topic modeling, and n-gram generation to investigate social science research questions."
   image: pong.png
   website: https://drive.google.com/file/d/1t62xSjLV_Vy8mxhgb_eZW_BwoCpp_wF5/view?usp=sharing
 

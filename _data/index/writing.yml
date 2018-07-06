@@ -1,9 +1,9 @@
 - name: Sentiment Analysis for Exploratory Data Analysis (2018)
   descr: "This peer-reviewed lesson uses sentiment analysis as the basis for an exploratory data analysis of a large textual corpus. It is appropriate for readers with some basic prior experience programming with Python."
-  image: pong.png
+  image: ping.png
   website: https://programminghistorian.org/en/lessons/sentiment-analysis
 
 - name: Filming Stop-Motion Animation (2018)
   descr: "I wrote a short little children's book about making stop-motion animation shorts on a low-to-no budget. It was super fun :) "
-  image: pong.png
+  image: ping.png
   website: https://books.google.com/books/about/Filming_Stop_Motion_Animation.html?id=6TM7DwAAQBAJ
