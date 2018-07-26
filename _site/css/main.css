@@ -769,10 +769,10 @@ footer {
   padding-bottom: 1em; }
 
 .primary-text-color {
-  color: #42b983; }
+  color: #09ABF6; }
 
 .primary-bg-color {
-  background-color: #42b983; }
+  background-color: #09ABF6; }
 
 .secondary-text-color {
   color: #8d7edc; }
@@ -793,10 +793,10 @@ footer {
   background-color: #f83e4b; }
 
 .info-text-color {
-  color: #09ABF6; }
+  color: #42b983; }
 
 .info-bg-color {
-  background-color: #09ABF6; }
+  background-color: #42b983; }
 
 .warning-text-color {
   color: #F5A623; }
@@ -1052,9 +1052,9 @@ blockquote {
 
 a {
   text-decoration: none;
-  color: #42b983; }
+  color: #09ABF6; }
   a:hover, a:focus {
-    color: #75cea5;
+    color: #4ec3f9;
     text-decoration: none; }
 
 h1, h2, h3, h4, h5, h6 {
@@ -1123,20 +1123,20 @@ p {
   font-size: 0.875em;
   font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 700;
-  background-color: #42b983;
+  background-color: #09ABF6;
   color: #fff;
   border-width: 2px !important;
   border-style: solid !important;
-  border-color: #42b983;
+  border-color: #09ABF6;
   text-decoration: none !important;
   border-radius: 5px; }
   .btn:visited {
     color: #fff;
-    border-color: #42b983; }
+    border-color: #09ABF6; }
   .btn:hover {
     background-color: #fff;
-    color: #42b983;
-    border-color: #42b983; }
+    color: #09ABF6;
+    border-color: #09ABF6; }
 
 .btn-success {
   background-color: #65e892;
@@ -1175,16 +1175,16 @@ p {
     border-color: #f83e4b; }
 
 .btn-info {
-  background-color: #09ABF6;
+  background-color: #42b983;
   color: #fff;
-  border-color: #09ABF6; }
+  border-color: #42b983; }
   .btn-info:visited {
-    border-color: #09ABF6;
+    border-color: #42b983;
     color: #fff; }
   .btn-info:hover {
     background-color: #fff;
-    color: #09ABF6;
-    border-color: #09ABF6; }
+    color: #42b983;
+    border-color: #42b983; }
 
 /* ==========================================================================
    Syntax highlighting
@@ -1471,8 +1471,8 @@ pre code {
     float: none; }
   .cover-card .author_name {
     display: block;
-    color: #F36170;
-    font-size: 1.75em;
+    color: black;
+    font-size: 1.8em;
     text-transform: lowercase; }
   .cover-card .author_job {
     display: block;
@@ -1615,7 +1615,7 @@ ul.tag-cloud {
   float: right;
   font-weight: bold;
   font-style: italic;
-  color: #09ABF6;
+  color: #42b983;
   font-size: 13px;
   padding-right: 20px; }
 
@@ -1625,17 +1625,17 @@ section.post {
 .back-home a {
   font-size: 13px;
   font-weight: bold;
-  color: #09ABF6;
+  color: #42b983;
   border: 1px solid rgba(115, 115, 115, 0.87);
   border-radius: 0.4em;
   padding: 0.5em 1em; }
 
 .post-title-link {
-  color: #42b983;
+  color: #09ABF6;
   font-size: 14px;
   margin-left: 10px; }
   .post-title-link:hover, .post-title-link:focus {
-    color: #75cea5; }
+    color: #4ec3f9; }
 
 .post-meta {
   font-size: 13px;
@@ -1649,7 +1649,7 @@ section.post {
     text-transform: uppercase;
     color: #F5A623; }
   .post-meta .read-time {
-    color: #42b983; }
+    color: #09ABF6; }
 
 a.read-more {
   padding: 5px 8px; }
