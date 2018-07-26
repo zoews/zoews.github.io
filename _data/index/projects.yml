@@ -1,3 +1,8 @@
+- name: Mapping Modern Diasporic Jewish Cultures
+  descr: "Transnational Jewish modernity was born in the café. As the web developer lead, I created APIs and wrote scripts to convert database content into GeoJSON & developed an interactive network visualization (forthcoming). Soft launch Spring 2018, full launch Fall 2018"
+  image: cafe.png
+  website: http://mapping.judaic.lsa.umich.edu
+
 - name: Exploratory Text Analysis of the 'Sexual Harassment in Academia' Dataset (2018)
   descr: "I investigated the 3,000+ text survey responses to sexual harassment reports in higher ed. I used a variety of NLP/ML methods including feature analysis of a random forest classifier, LDA topic modeling, and n-gram generation to investigate social science research questions."
   image: nlp_proj.png
@@ -13,7 +18,3 @@
   image: reparative.png
   website: http://jamforleelah81.itch.io/reparative
 
-- name: Mapping Modern Diasporic Jewish Cultures
-  descr: "Transnational Jewish modernity was born in the café. As the web developer lead, I created APIs and wrote scripts to convert database content into GeoJSON & developed an interactive network visualization (forthcoming). Soft launch Spring 2018, full launch Fall 2018"
-  image: cafe.png
-  website: http://mapping.judaic.lsa.umich.edu
