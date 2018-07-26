@@ -8,9 +8,12 @@
   image: nasa.png
   website: https://clarklabs.lib.umich.edu/2017/11/08/using_processing_visualize_space_exploration/
 
- 
 - name: REPARATIVE - A /#JamForLeelah Twine Submission (itch.io) (2015)
   descr: "Newly hired by Reparative Faith Counseling, you take your first unsupervised client. How the sessions go is up to you. (This is a short game about trans youth, narratives, gender, and kindness)"
   image: reparative.png
   website: http://jamforleelah81.itch.io/reparative
 
+- name: Mapping Modern Diasporic Jewish Cultures
+  descr: "Transnational Jewish modernity was born in the café. As the web developer lead, I created APIs and wrote scripts to convert database content into GeoJSON & developed an interactive network visualization (forthcoming). Soft launch Spring 2018, full launch Fall 2018"
+  image: cafe.png
+  website: http://mapping.judaic.lsa.umich.edu
