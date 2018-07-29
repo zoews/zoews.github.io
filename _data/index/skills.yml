@@ -2,5 +2,5 @@
 
 label: xp
 id : cs
-aspects: Python, R, NLP, Data Visualization, ML, SQL, Instruction, pandas, Writing, Spark
-percentage: 4, 2, 4, 4, 2, 3, 4, 4, 5, 1
+aspects: python, R, NLP, data viz, ML, SQL, js, instruction, pandas, writing, spark
+percentage: 4, 2, 4, 4, 3, 3, 3, 5, 3, 5, 3

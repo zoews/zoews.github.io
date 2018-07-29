@@ -451,9 +451,11 @@ th {
 
 img {
   display: block;
-  max-width: 100%;
+  max-width: 90%;
   margin-left: auto;
-  margin-right: auto; }
+  margin-right: auto;
+  padding: 6px;
+  border: 1px solid #dddddd; }
 
 table,
 th,
@@ -1620,7 +1622,7 @@ ul.tag-cloud {
   padding-right: 20px; }
 
 section.post {
-  margin-bottom: 80px; }
+  margin-bottom: 50px; }
 
 .back-home a {
   font-size: 13px;
@@ -1660,7 +1662,7 @@ a.read-more {
     margin: 0 auto 50px; }
 
 #post h1 {
-  margin: 0.5em 0 1em; }
+  margin: 1em 0 1em; }
 
 #post h2 {
   margin: 2em 0 0.8em;

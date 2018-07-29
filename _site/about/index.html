@@ -55,7 +55,7 @@
   
   <a href="http://localhost:4000/" class="author_name">Zoë Wilkinson Saldaña</a>
   <span class="author_job">Social Science and Geospatial Data Librarian</span>
-  <span class="author_bio mbm">Data, cats, pinball, Python, R</span>
+  <span class="author_bio mbm">Data, cats, pinball, Python, NLP</span>
   <nav class="nav">
     <ul class="nav-list">
       <li class="nav-item">
@@ -69,19 +69,21 @@
           <span>/</span>
         
       </li>
-              
+        
       <li class="nav-item">
         <a href="http://localhost:4000/projects/">Projects!</a>
         
           <span>/</span>
         
       </li>
-        
+          
       <li class="nav-item">
-        <a href="http://localhost:4000/words/">Archive</a>
+        <a href="http://localhost:4000/categories/">Blog Archive</a>
+        
+          <span>/</span>
         
       </li>
-       
+           
     </ul>
   </nav>
   <script type="text/javascript">
@@ -136,27 +138,29 @@
     <div class="col l7">
         <div class="row">
             <div class="col">
-                <h1><span data-i18n="skills.my_skills">Who am I?</span></h1>
+                <h1><span data-i18n="skills.my_skills">About me</span></h1>
 
 <div>
+    <img src="http://localhost:4000/img/zoe_at_treman.jpg" alt="Portrait of Zoë in Treman State Park">
+    <p style="text-align: center"><i>Happy and giant waterfall-adjacent</i></span>
     <h3>I work as a data librarian in Ithaca, New York. </h3>
     <p>
     In 2011, I started teaching adult learners from diverse backrounds how to double-click, browse Wikipedia, and  enter functions into Excel. 
     </p><p>
-    Six years later, I still love helping learners work towards their goals with technology, but I draw upon a different toolkit: developing web applications and open source software, consulting with clients from diverse backgrounds and with varying levels of technical expertise, mentoring young developers, and writing.
+    Six years later, I still love helping learners work towards their goals with technology, but I draw upon a different toolkit: developing web applications, consulting with clients from diverse backgrounds and with varying levels of technical expertise, mentoring young developers, and writing.
 </p>
 <p>
-    Now as the <b>Social Science and Geospatial Data Librarian at Cornell University</b>, I specialize in helping learners and researchers find & interpret data across the social sciences, including supporting those who are new to digital methods. My techniques of choice include manipulating complex & messy datasets, data visualization, text mining, and generally using Python and other programming languages to pursue research questions. I also select for City and Regional Planning and connect students with quantitative datasets for web mapping & analysis. 
+    As the <b>Social Science and Geospatial Data Librarian at Cornell University</b>, I specialize in helping learners and researchers find & interpret data across the social sciences, including supporting those who are new to digital methods. My techniques of choice include manipulating complex & messy datasets, data visualization, text mining, and generally using Python and other programming languages to pursue research questions.
 </p>
 <hr >
-<h3>I'm also a data science-oriented developer.</h3>
-<p>In particular, I focus on critical applications of data-intensive methods, open source development, and NLP.</p>
+<h3>I'm also a data scientist and full-stack web developer.</h3>
+<p>In particular, I focus on critical applications of data science, open source packages and software, machine learning, and natural language processing.</p>
 <h4>Key methodologies:</h4>
 <p>Exploratory data analysis; natural language processing; web application development; data skills instruction with learners with diverse backgrounds; data visualization and storytelling; technical writing</p>
 <h4>Key technical skills:</h4>
-<p>Python, R, SQL, pandas, tidyverse, scikit-learn, d3</p>
+<p>Python (pandas, pyspark, jupyter, etc.) and R (tidyverse); SQL; web app development (django, flask, HTML/CSS, JavaScript); visualization (d3, seaborn, bokeh, Tableau); machine learning & nlp (scikit-learn, Spark, TensorFlow); and open source collaboration (git/github).</p>
 <h4>Learning-in-progress:</h4>
-<p>TensorFlow, Tableau, JavaScript</p>   
+<p>Spark and Hadoop architecture, intermediate/advanced JavaScript, test-driven development best practices, contributing more pull requests to FOSS projects</p>   
 <hr >
 <h3> I'm into a bunch of other stuff too!</h3>
 <p>
@@ -171,12 +175,12 @@
 
         <div class="row">
             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-<h1><span data-i18n="skills.my_skills">Blob of Skills and Curiosities</span></h1>
-<canvas id="cs" height="500" width="500"></canvas>    
+<h1><span data-i18n="skills.my_skills">Blob of skills & curiosities</span></h1><hr >
+<canvas id="cs" height="400" width="500"></canvas>    
 <script>
     var ctx = document.getElementById("cs");
     var data = {
-    labels: "Python, R, NLP, Data Visualization, ML, SQL, Instruction, pandas, Writing, Spark".split(","),
+    labels: "python, R, NLP, data viz, ML, SQL, js, instruction, pandas, writing, spark".split(","),
     datasets: [{
         label: "xp",
         backgroundColor: "rgba(179,181,198,0.2)",
@@ -185,7 +189,7 @@
         pointBorderColor: "#fff",
         pointHoverBackgroundColor: "#3385FF",
         pointHoverBorderColor: "#3385FF",
-        data: [4, 2, 4, 4, 2, 3, 4, 4, 5, 1]
+        data: [4, 2, 4, 4, 3, 3, 3, 5, 3, 5, 3]
         }]
     };
     var myRadarChart = new Chart(ctx, {
@@ -206,14 +210,16 @@
         </div>
 
         <div class="row">
-            <h1><span data-i18n="skills.my_skills">Bio</span></h1>
+            <h1><span data-i18n="skills.my_skills">Work history</span></h1> <hr >
 
 <div class="archive">
   <div class="timeline" id="timeline">
     
           <div class="archive-title"><div class="archive-year"><strong>2018 - Now</strong> Social Science and Geospatial Data Librarian @ <a href="http://library.cornell.edu/">Cornell University</a></div></div>
     
-          <div class="archive-title"><div class="archive-year"><strong>2016 - 2018</strong> Data Visualization Intern @ <a href="http://www.facebook.com/">University of Michigan</a></div></div>
+          <div class="archive-title"><div class="archive-year"><strong>2016 - Now</strong> Programmer/Analyst (Consultant) @ <a href="http://si.umich.edu/">University of Michigan</a></div></div>
+    
+          <div class="archive-title"><div class="archive-year"><strong>2016 - 2018</strong> Data Visualization Intern @ <a href="http://si.umich.edu/">University of Michigan</a></div></div>
     
           <div class="archive-title"><div class="archive-year"><strong>2015 - 2016</strong> Academic Technology Assistant @ <a href="https://library.cityu.edu">City University of Seattle</a></div></div>
     
@@ -224,7 +230,7 @@
         </div>
         <div class="row">
             <div class="navy-line"></div>
-<h1><span data-i18n="skills.my_skills">Education</span></h1>
+<h1><span data-i18n="skills.my_skills">Education</span></h1> <hr >
 
 <div class="archive">
   <div class="timeline" id="timeline">
