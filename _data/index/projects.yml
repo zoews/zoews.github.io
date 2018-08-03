@@ -9,6 +9,7 @@
   descr: "I investigated the 3,000+ text survey responses to sexual harassment reports in higher ed. I used a variety of NLP/ML methods including feature analysis of a random forest classifier, LDA topic modeling, and n-gram generation to investigate social science research questions."
   image: nlp_proj.png
   website: https://drive.google.com/file/d/1t62xSjLV_Vy8mxhgb_eZW_BwoCpp_wF5/view?usp=sharing
+  github: https://github.com/zoews/academic-harassment-data
   tags: ["python", "nlp", "machine learing", "technical writing"]
   year: 2018
 
@@ -29,7 +30,8 @@
 - name: Visualization of the NASA Space Shuttle program
   descr: "'...As an inaugural project to get our digital projects studio thinking and managing a project, we used a dataset that recorded the distance traveled by each space shuttle launch from 1981 – 2011 and worked to visualize the total miles traveled for each shuttle as a hypothetical race to the red planet...''"
   image: nasa.png
-  website: https://clarklabs.lib.umich.edu/2017/11/08/using_processing_visualize_space_exploration/
+  website: https://vimeo.com/241552671
+  post: https://clarklabs.lib.umich.edu/2017/11/08/using_processing_visualize_space_exploration/
   tags: ["visualization", "java/processing"]
   year: 2017
 

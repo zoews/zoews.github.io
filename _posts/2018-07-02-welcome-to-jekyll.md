@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "STILL UNDER CONSTRUCTION - check back July 31st :p"
+title:  "Still working on the blog, please check back in early August"
 date:   2018-07-02 15:07:19
 categories: [tutorial]
 comments: true

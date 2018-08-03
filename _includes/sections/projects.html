@@ -12,11 +12,19 @@
     <div class="row">
        <div class="col l7">
                 {% if project.image %}
-                <a href="{{ project.website }} "><img src="../img/{{ project.image }}" style="float:left; margin:15px; border:1px solid #021a40;"></a>
+                    <a href="{{ project.website }} "><img src="../img/{{ project.image }}" style="float:left; margin:15px; border:1px solid #021a40;"></a>
                 {% endif %}
                 <a href="{{ project.website }} "><h3 style="margin: 0">{{ project.name }}  [{{ project.year }}]</h2></a>
                 <p style="margin: 0">{{ project.descr }} </p>
-
+                {% if project.website %}
+                    <a href="{{ project.website }} ">Project</a> &ensp; &ensp; &ensp; 
+                {% endif %}
+                {% if project.post %}
+                <a href="{{ project.post }} ">Blog post</a> &ensp; &ensp; &ensp; 
+                {% endif %}
+                {% if project.github %}
+                    <a href="{{ project.github }} ">GitHub repo</a>
+                {% endif %}
 
                 <br>
 
