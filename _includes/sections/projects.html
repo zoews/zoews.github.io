@@ -22,10 +22,10 @@
 
             </div>
         <div class="col l2 offset-l1">
-            <p>
+            <br >
             {% if project.tags %}
                 {% for tag in project.tags %}
-                    {{ tag }} <br >
+                <span class="project_tag" name= "{{ tag }}"> {{ tag }} </span>
                 {% endfor %}
             {% endif %}
 
