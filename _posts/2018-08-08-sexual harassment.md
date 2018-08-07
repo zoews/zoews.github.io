@@ -28,11 +28,13 @@ One peer described the issues in the data, column by column, but she stopped whe
 
 However, I couldn't stop thinking about the survey. Thousands of individuals had revealed their experiences with sexual harassment and assault in academia, many apparently for the first time. These reports detailed the devastating effect these events had on their lives. This is vital, powerful data that deserves to have its story told.
 
+<!--more-->
+
 When I had the opportunity to propose an individual project for my Data Manipulation & Analysis course, I petitioned successfully to build something around the sexual harassment data. This post describes my semester-long attempt to use the toolkit of natural language processing and machine learning - specifically, the tools of **topic modeling** and **text classification** - hand-in-hand with a reflexive process of generating, challenging, and revising research questions. It also describes something that I have been seeking within my own studies and work in the realms of data: a critical data science approach that challenges systems of power, and highlights rather than flattens individual experience.
 
-### The Tl;DR:
+### The tl;dr:
 
-If you want the **tl;dr:,** here are the **key findings of my analysis**:
+I'm going to take a bit to describe this journeny below. If you don't have the time to wade through with me, here are the **key findings of my analysis**:
 
 -   Topic modeling of sexual harassment reports draws attention to several areas: the supervisor/mentor relationships, common spaces like the research lab, ongoing “pressuring” and “grooming” behaviors by faculty members, and devastating impacts on individual lives.
 
@@ -49,6 +51,8 @@ And here’s what I hope you **take away**:
 -   Our intuitions and findings in this realm are always contingent. We must always contextualize what we produce within the day-to-day and institutional realities in which some narratives are given more power than others.
 
 -   I want to use data science to interrogate and critique structures of power and oppression. (And I hope you want that, too!)
+
+Now, how did we get here?
 
 ## The Initial Question
 
