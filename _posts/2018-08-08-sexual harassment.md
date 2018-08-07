@@ -70,7 +70,7 @@ The Sexual Harassment in Academia dataset is a collection of responses to an ope
 
 [Here is a website](http://people.csail.mit.edu/karger/Exhibit/Harass/) providing a faceted interface for accessing the data (the introduction also linking to the survey results, a blog post by its creator, etc.)
 
-![](./img/harassment/image1.png){width="7.190277777777778in" height="1.6834350393700788in"}
+![]({{ site.url }}/img/harassment/image1.png){width="7.190277777777778in" height="1.6834350393700788in"}
 
 This version uses a slightly modified version of the original survey results adds a few additional columns that attempt to clean or otherwise aggregate data. However, at the time of analysis those standardization attempts were still scattershot and only partially implemented (and as of July 2018 continue to be in-progress).
 
@@ -174,13 +174,13 @@ I described above the importance of interpreting topics as possible relationship
 
 To illustrate patterns in the context of the harassment/assault event, here is a table of topics from the “event” field of responses:
 
-![](./img/harassment/image2.png){width="5.05in" height="2.9768766404199476in"}
+![]({{ site.url }}/img/harassment/image2.png){width="5.05in" height="2.9768766404199476in"}
 
 These topics provoke a number of questions. Is there an association between the “dean” position and long-term, sustained harassment (“years”, “several”, “involved”?) When events appear to a peer (“student”, “grad”, “department”) in the final topic, why does “lab” show up frequently? How might “removed” or “separate” relate to a common strategy of shuffling around perpetrators without terminating employment? The relationship between “pressured, “raped,” and “groomed” seems to tell a specific story – one in which a perpetrator takes deliberate steps over time before committing sexually violent acts.
 
 The topics from the “mental” field of responses illustrates the profound impact of these events on mental health and wellbeing:
 
-![](./img/harassment/image3.png){width="4.78in" height="2.7919958442694663in"}
+![]({{ site.url }}/img/harassment/image3.png){width="4.78in" height="2.7919958442694663in"}
 
 The impacts described above seem truly devastating. They range from a mixture of emotional and physical responses (“stress”, “migraines”, “pain”) to the loss of trust in those in powers (“distrust”, “figures”, “authority”, “male”). Mental health disorders appear together (”anxiety”, “depression”, “ptsd”). Meanwhile, the topic led with “male” includes the mildest emotion across all topics: “annoyed”.
 
@@ -188,7 +188,7 @@ These responses demonstrate how interrelated physical, cognitive, and emotional 
 
 Finally, here is a table of topics in the punishment category:
 
-![](./img/harassment/image4.png){width="5.184407261592301in" height="3.34in"}
+![]({{ site.url }}/img/harassment/image4.png){width="5.184407261592301in" height="3.34in"}
 
 In these responses, we find very little evidence of a repercussion like firing, although “removed” does appear once. Instead, we see a prominent pattern of topics that begin with “none”, “unknown”, “na”, “nothing”, or even just an empty string (a non-response). We even see evidence of positive academic outcomes for faculty such as “promoted”, and “get” “tenure”.
 
@@ -207,7 +207,7 @@ Once I created a test/train split correctly (oof), the correctly fit model range
 
 I felt that, given these very low numbers in terms of classification success, it would be misleading to try to interpret the featureImportance figures in great detail. For instance, here is the raw output of the most successful classification task (.637 accuracy) which occurred with the mental health impacts category:
 
-![](./img/harassment/image5.png){width="6.409861111111111in" height="2.217688101487314in"}
+![]({{ site.url }}/img/harassment/image5.png){width="6.409861111111111in" height="2.217688101487314in"}
 
 I am not sure how to interpret this outcome. Mentioning “think”, or a blank entry (somehow this persisted even after attempting to remove nulls at length!) do not easily lead to a real-world interpretation, and “academia” and “women”, while interesting, elude easy interpretation as well.
 
@@ -221,7 +221,7 @@ In the previous step, we achieved classification success of just .59 to .637 in 
 
 From a domain perspective, this finding has a strong potential to tell a compelling story about how sexual harassment and assault incidents drastically alter the lives of targets. Given the moderately strong predictive power of this model, I felt it was appropriate to delve into the specific features and their relative importance. This resulted in what I believe to be some of the strongest findings of the project:
 
-![](./img/harassment/image6.png){width="5.49in" height="5.033111329833771in"}
+![]({{ site.url }}/img/harassment/image6.png){width="5.49in" height="5.033111329833771in"}
 
 Of all possible words that appear within “response” descriptions, the strongest predictors of a “left” or “quit” outcome appear to be a non-response (“none”, blank, “nothing”, “never”) or mention of a supervisor (“boss”). If we were interested in preventing the outcome of targets leaving academia, we might be motivated to investigate these cases of non-responses – what allowed for the absence of any response whatsoever? Was there any good faith intention made to investigate any aspect of these cases?
 
@@ -229,7 +229,7 @@ Furthermore, how do direct supervisors engage with investigations into sexual ha
 
 An incredibly important caveat is that we cannot, from the results above, definitively state the *direction* of this association. It’s possible, for example, that a “none” response is correlated with *not leaving* academia. What we can say more generally is that, if we know about the way a department or institution responds to sexual harassment/assault, we can develop a pretty good guess of whether the target will eventually leave their graduate program or their academic career. This exploratory finding might give us pause and prompt us to consider how a non-response might be systematically encouraging individuals to abandon their studies and careers.
 
-![](./img/harassment/image7.png){width="5.410281058617673in" height="4.929968285214348in"}
+![]({{ site.url }}/img/harassment/image7.png){width="5.410281058617673in" height="4.929968285214348in"}
 
 Quite similarly, events that include references to people in direct positions of power (“supervisor”, “dean”) appear predictive of an individual leaving or quitting their position or academic career.
 
