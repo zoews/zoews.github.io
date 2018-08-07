@@ -31,17 +31,17 @@ However, I couldn't stop thinking about the survey. Thousands of individuals had
 
 <!--more-->
 
-When I had the opportunity to propose an individual project for my Data Manipulation & Analysis course, I petitioned successfully to build something around the sexual harassment data. This post describes my semester-long attempt to use the toolkit of natural language processing and machine learning - specifically, the tools of **topic modeling** and **text classification** - hand-in-hand with a reflexive process of generating, challenging, and revising research questions. It also describes something that I have been seeking within my own studies and work in the realms of data: a critical data science approach that challenges systems of power, and highlights rather than flattens individual experience.
+When I had the opportunity to propose an individual project for my Data Manipulation & Analysis course, I petitioned successfully to build something around the sexual harassment data. This post describes my semester-long attempt to use the toolkit of natural language processing and machine learning - specifically, the tools of **topic modeling** and **text classification** - hand-in-hand with a reflexive process of generating, challenging, and revising research questions. It also describes my ongoing process of finding someething deeper: a critical data science approach that challenges systems of power, and highlights rather than flattens individual experience.
 
 ### The tl;dr:
 
 I'm going to take a bit to describe this journey below. If you don't have the time to wade through with me, here are the **key findings of my analysis**:
 
--   Topic modeling of sexual harassment reports surfaces several recurring elements within reports: the supervisor/mentor relationships, common spaces like the research lab, ongoing “pressuring” and “grooming” behaviors by faculty members, and devastating impacts on individual lives.
+-   Topic modeling draws our attention to recurring elements of the reports: the supervisor/mentor relationships, common spaces like the research lab, ongoing “pressuring” and “grooming” behaviors by perpetrators, and the interrelationship of physical/mental/emotional/career impacts on individual lives.
 
 -   Specifically, topic modeling encourages us to ask: what is the domain of places, relationships, and interactions at play in these incidents? What may we have failed to include or anticipate in our data collectionn strategies?
 
--   If we collect information about institutional responses, or description of the incident itself, we can predict with \~80% accuracy whether the target will eventually “quit” or “leave” their career/academia/etc. in the long run. Non-responses from institutions, descriptions of bosses and supervisors, and descriptions of spaces like “office” and “lab” are among the most predictive of a left/quit outcome.
+-   If we collect information about institutional responses, or description of the incident itself, we can predict with \~80% accuracy whether the target will eventually “quit” or “leave” their career/academia/etc. in the long run. Non-responses from institutions are among the most predictive of a left/quit outcome (although this method does not, in itself, establish the direction or causality of such a relationship).
 
 -   Building a predictive model doesn’t have to be a means to an end. Rather, it gives us an opportunity to assess which features of our data are most powerful when making those predictions, and in doing so, helps us to identify potential correlations to focus on in subsequent investigations.
 
@@ -245,7 +245,7 @@ These two visualizations point to a possible correlation between individuals exp
 
 At the outset of this analysis, I posed the question: **what does NLP/machine learning contribute that makes it worth paying attention to when we have the words of targets & survivors in front of us?**
 
-Natural language processing and machine learning algorithms are often criticized for promising incredible empirical insights while remaining opaque in how they are producing those results – and that criticism is entirely fair! What I’m curious about is what happens when, rather than leaning on these tools to predict outcomes or manufacture new evidence, we incorporate them into a process of interrogating structures of power along with our own blind-spots.
+Natural language processing and machine learning algorithms are often criticized for promising empirical insights while remaining opaque in how they are producing those results – and that criticism is entirely fair! What I’m curious about is what happens when, rather than leaning on these tools to predict outcomes or manufacture new evidence, we incorporate them into a process of interrogating structures of power along with our own blind-spots.
 
 What if the outcome of computational text analysis was not a set of algorithmically-divined conclusions so much as a new ethic of investigation? What if instead of waiting for disciplinary boards and committees to find evidence of assault that rises above some satisfactory threshold, we in academic communities start investigating the safeguards (or lack thereof) that protect students from predatory advisors and supervisors? What if we demand focus on the profound structural factors that discourage targets from reporting perpetrators, or the cumulative effect of watching faculty member after faculty member receive no substantial consequence from their actions, or the experiences of individuals who end up leaving their professions and studies entirely?
 
