@@ -50,7 +50,7 @@ Here's some of what I hope you **take away**:
 
 -   Our intuitions and findings in this realm are always contingent. We must always contextualize what we produce within the day-to-day and institutional realities in which some narratives are given more power than others.
 
--   I want to use data science to interrogate and critique structures of power and oppression. (And I hope you want that, too!)
+-   I want to use data science to interrogate and challenge structures of power. (And I hope you want that, too!)
 
 
 Now, how did we get here?
@@ -81,13 +81,13 @@ These text field submissions include:
 
 > Event description, target status (e.g. student, professor), perpetrator status (e.g. professor/chair/fellow graduate student/etc.), name of the institution (optional), field discipline, institutional response (if any), institutional/career consequences for perp (if any), impact on your career, impact on your mental health, impact on life trajectory/choices, and other.
 
-In my analysis, I make a distinction between data that describes the nature of the encounter (such as role of perpetrator and event description), the consequences for the perpetrator (response, punishment), and the long-term impact on the target (mental health, career, and life impacts). The survey does an excellent job in affording us a vivid picture of harassment across time, and laying the groundwork for investigating the correlations between aspects of the event and what comes after.[[]{#the-research-questions .anchor}]{#the-initial-question-1 .anchor}
+In my analysis, I make a distinction between data that describes the nature of the encounter (such as role of perpetrator and event description), the consequences for the perpetrator (response, punishment), and the long-term impact on the target (mental health, career, and life impacts). The survey does an excellent job in affording us a vivid picture of harassment across time, and laying the groundwork for investigating the correlations between aspects of the event and what comes after.
 
-## The Research Questions {#the-research-questions-1}
+## The Research Questions
 
-[]{#topic-modeling-of-responses .anchor}With these concerns in mind, I attempted to surface elements in the survey responses that may not have been visible from the texts alone - but that also draw the researcher's attention *back into the reports* rather than abstracting the specificity away. I include four research questions in the original report (see the Notes below), but here I'm going to focus on three research questions that I’ve gathered into two categories:
+With these concerns in mind, I attempted to surface elements in the survey responses that may not have been visible from the texts alone - but that also draw the researcher's attention *back into the reports* rather than abstracting the specificity away. I include four research questions in the original report (see the Notes below), but here I'm going to focus on three research questions that I’ve gathered into two categories:
 
-### Topic modeling of responses: {#topic-modeling-of-responses-1}
+### Topic modeling of responses:
 
 Q1: What are the main themes we might infer from reports of harassment/assault events? (*Note: will include a discussion of topic vs theme below*)
 
