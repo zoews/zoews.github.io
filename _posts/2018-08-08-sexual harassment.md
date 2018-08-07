@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "What does critical data science add to our understanding of sexual harassment in academia?"
-date:   2018-07-02 15:07:19
+date:   2018-08-07 17:22:00
 categories: [essay]
 comments: true
 image:
