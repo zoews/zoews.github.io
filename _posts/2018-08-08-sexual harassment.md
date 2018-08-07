@@ -34,23 +34,24 @@ When I had the opportunity to propose an individual project for my Data Manipula
 
 ### The tl;dr:
 
-I'm going to take a bit to describe this journeny below. If you don't have the time to wade through with me, here are the **key findings of my analysis**:
+I'm going to take a bit to describe this journey below. If you don't have the time to wade through with me, here are the **key findings of my analysis**:
 
--   Topic modeling of sexual harassment reports draws attention to several areas: the supervisor/mentor relationships, common spaces like the research lab, ongoing “pressuring” and “grooming” behaviors by faculty members, and devastating impacts on individual lives.
+-   Topic modeling of sexual harassment reports surfaces several recurring elements within reports: the supervisor/mentor relationships, common spaces like the research lab, ongoing “pressuring” and “grooming” behaviors by faculty members, and devastating impacts on individual lives.
 
--   Topic modeling also helps us ask: what is the domain of places, relationships, and interactions at play in these incidents? What may we have failed to include or anticipate in our data-collecting strategies?
+-   Specifically, topic modeling encourages us to ask: what is the domain of places, relationships, and interactions at play in these incidents? What may we have failed to include or anticipate in our data collectionn strategies?
 
 -   If we collect information about institutional responses, or description of the incident itself, we can predict with \~80% accuracy whether the target will eventually “quit” or “leave” their career/academia/etc. in the long run. Non-responses from institutions, descriptions of bosses and supervisors, and descriptions of spaces like “office” and “lab” are among the most predictive of a left/quit outcome.
 
 -   Building a predictive model doesn’t have to be a means to an end. Rather, it gives us an opportunity to assess which features of our data are most powerful when making those predictions, and in doing so, helps us to identify potential correlations to focus on in subsequent investigations.
 
-And here’s what I hope you **take away**:
+Here's some of what I hope you **take away**:
 
 -   Critical data science, as a set of methods and an ethical stance, can absolutely play a part in challenging our assumptions, redirecting our attention, and prompting us to ask new and more careful questions.
 
 -   Our intuitions and findings in this realm are always contingent. We must always contextualize what we produce within the day-to-day and institutional realities in which some narratives are given more power than others.
 
 -   I want to use data science to interrogate and critique structures of power and oppression. (And I hope you want that, too!)
+
 
 Now, how did we get here?
 
@@ -213,7 +214,6 @@ I am not sure how to interpret this outcome. Mentioning “think”, or a blank 
 
 The main finding from this question is that the survey descriptions only weakly predict professor/no professor. Perhaps another approach would lead to a more successful model, but at the moment, the relationship doesn’t appear to be very strong.
 
-## 
 
 ## Q3: What language in the incident report is most predictive of whether the respondent “left” or “quit” their position/academia/the discipline/etc.? How powerful is this prediction (in general and relative to the professor model)?
 
@@ -256,8 +256,12 @@ Onwards!
 
 ## Acknowledgments
 
-My sincere thanks to Justin for helping me think through the “critical” component of critical data science in this project and beyond. Thank you also to Diana for her suggestions for making this piece more useful for a wider audience, and to Sarah for her generous feedback.
+My sincere thanks to Justin for helping me think through the “critical” component of critical data science in this project and beyond. Thank you also to Diana for suggesting how to making this piece more useful for a wider audience, and to Sarah for generous feedback & enthusiasm for dreamy data science vocab (random forests! seaborn!)
 
 ## Notes
 
-In the original report, I also included a round of analysis using ngrams (an additional NLP strategy), which I excluded here in order to focus on the more ML-intensive methods. To read more about those methods and see those findings (which closely mirror the trends re: lack of repercussions and importance of supervision relationships/common spaces like labs/etc.), you may wish to review my original report [here](https://github.com/zoews/academic-harassment-data/blob/master/si618wn2018_report_zoews.pdf).
+In the original report, I also included a round of analysis countinng ngrams (an additional NLP strategy), which I excluded here in order to focus on the more ML-intensive methods. To read more about those methods and see those findings (which closely mirror the trends re: lack of repercussions and importance of supervision relationships/common spaces like labs/etc.), you may wish to review my original report [here](https://github.com/zoews/academic-harassment-data/blob/master/si618wn2018_report_zoews.pdf).
+
+## Explore the data and code yourself
+
+The data (as a .csv file) and code (as a Jupyter notebook) are available at the [project repository on GitHub](https://github.com/zoews/academic-harassment-data/). Feel free to explore further. (I also plan to release a more technical tutorial on building an NLP/ML pipeline in Spark soon!)
