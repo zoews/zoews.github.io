@@ -30,7 +30,9 @@ However, I couldn't stop thinking about the survey. Thousands of individuals had
 
 When I had the opportunity to propose an individual project for my Data Manipulation & Analysis course, I petitioned successfully to build something around the sexual harassment data. This post describes my semester-long attempt to use the toolkit of natural language processing and machine learning - specifically, the tools of **topic modeling** and **text classification** - hand-in-hand with a reflexive process of generating, challenging, and revising research questions. It also describes something that I have been seeking within my own studies and work in the realms of data: a critical data science approach that challenges systems of power, and highlights rather than flattens individual experience.
 
-If you want the **tl;dr:,** here are the main findings of my analysis:
+### The Tl;DR:
+
+If you want the **tl;dr:,** here are the **key findings of my analysis**:
 
 -   Topic modeling of sexual harassment reports draws attention to several areas: the supervisor/mentor relationships, common spaces like the research lab, ongoing “pressuring” and “grooming” behaviors by faculty members, and devastating impacts on individual lives.
 
@@ -40,13 +42,13 @@ If you want the **tl;dr:,** here are the main findings of my analysis:
 
 -   Building a predictive model doesn’t have to be a means to an end. Rather, it gives us an opportunity to assess which features of our data are most powerful when making those predictions, and in doing so, helps us to identify potential correlations to focus on in subsequent investigations.
 
-And here’s the main takeaway ideas:
+And here’s what I hope you **take away**:
 
 -   Critical data science, as a set of methods and an ethical stance, can absolutely play a part in challenging our assumptions, redirecting our attention, and prompting us to ask new and more careful questions.
 
 -   Our intuitions and findings in this realm are always contingent. We must always contextualize what we produce within the day-to-day and institutional realities in which some narratives are given more power than others.
 
--   I want to use data science to interrogate and critique structures of power and oppression. I’d love for you to want that, too.
+-   I want to use data science to interrogate and critique structures of power and oppression. (And I hope you want that, too!)
 
 ## The Initial Question
 
@@ -57,8 +59,6 @@ This question had two main implications for me. First, it pointed to the possibi
 Second, it called attention to the very real impact of prioritizing some types of data over others. As my mentor Justin Joque observed when I discussed this project with him this spring, administrators and other gatekeepers use the idea of threshold of objectivity to dismiss individual testimony of sexual harassment and assault. (The wider public uses similar rhetoric when using legal thresholds to reject individual reports as slander, not containing sufficient evidence, etc.) By claiming that algorithms can unearth new data from text responses in the aggregate, we must be careful not to reinforce this toxic idea that narratives alone are never enough to identify and combat systematic abuse.
 
 Data science as a way of producing insight also brings with it an ideology prevalent in statistics and computational methods: *this thing is real because we've measured it*. This is especially powerful in something like textual survey responses. No matter how real these words felt to my group members and myself sitting around a table in Ann Arbor, most university discipline boards and other institutional actors ascribe greater power to what they perceive as objective evidence. At the same time, identifying implicit structures and other *unknown unknowns* can be an impetus to turn our attention back on these narratives with renewed intensity. Therein lies the opportunity, and the risk, in exploring texts of individual narratives.
-
-## 
 
 ## The Dataset
 
