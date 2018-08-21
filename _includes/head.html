@@ -41,10 +41,14 @@
   <!-- Open Graph Tags -->
   <meta property="og:type" content="blog">
   <meta property="og:url" content="{{ site.url }}">
-  <meta property="og:title" content="{{ title }}">
-  <meta property="og:description" content="{{ description }}">
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{ page.summary }}">
+  {% if page.image.feature %}
+  <meta property="og:image" content="{{ site.url }}/img/{{ page.image.feature }}">
+  {% else %}
   <meta property="og:image" content="{{ site.url }}/img/zoe_at_treman.jpg">
-  <title>{{ title }}</title>
+  {% endif %}
+  <title>{{ page.title }}</title>
 
   <!-- CSS files -->
   <link rel="stylesheet" href="{{ site.url }}/css/font-awesome.min.css">
