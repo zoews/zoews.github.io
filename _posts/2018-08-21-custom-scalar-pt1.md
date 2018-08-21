@@ -9,11 +9,13 @@ modified: 2018-08-21
 comments: true
 ---
 
-[Scalar](https://scalar.me/anvc/scalar/) is a unique and powerful open source publishing platform. Its strength lies in its ability to combine linear and nonlinear methods of exploring media, narratives, annotations, and scholarship within the single organizing structure of a **book**. Scalar also provides [several out-of-the-box options](http://scalar.usc.edu/works/guide2/visualizations?path=index) to visualize your data - and specifically, to visualize the connections within your book.
+[Scalar](https://scalar.me/anvc/scalar/) is a unique and powerful open source publishing platform. Its strength lies in its ability to combine linear and nonlinear methods of exploring media, narratives, annotations, and scholarship within the single organizing structure of a **book**. Scalar also provides [several out-of-the-box options](http://scalar.usc.edu/works/guide2/visualizations?path=index) to visualize your data - including as an interactive network visualization.
 
-But what happens when you want to take some creative risks and customize your visualizations beyond what the Scalar presets allow for? Our team recently encountered this issue, and decided to find a way to create this visualization "from scratch" (in reality, leveraging a handful of excellent tools provided by Scalar and open source packages!) I used the [Scalar API Explorer](http://scalar.usc.edu/tools/apiexplorer/) to export data about our pages and tags between pages, prepared the network data with Python and a number of libraries (NetworkX, BeautifulSoup, etc.), and wrote a custom network visualization using D3.js and Canvas. That process involved a fair bit of code and experimentation, and I'd like to share the process and a few functions I developed along the way here. I tried to indicate several places where you may wish to deviate from my process, or to experiment further, depending on your Scalar book and your own vision of what such a visualization might look like.
+But what happens when you want to customize your visualizations beyond what the Scalar presets allow for? I recently ran up against this issue and decided to find a way to create a network visualization "from scratch" (in reality, leveraging a number of excellent open source tools, demos, and APIs!) I used the [Scalar API Explorer](http://scalar.usc.edu/tools/apiexplorer/) to export data about our pages and tags between pages, prepared the network data with Python and various packages (NetworkX, BeautifulSoup, etc.), and wrote a custom network visualization using D3.js and Canvas. 
 
-This tutorial includes two parts:
+I waded through a fair bit of code and experimentation along the way, and I'd like to share with you some notes, lessons, code, and tools that reuslted from that process. I also tried to identify several places where you may wish to deviate from my process, or to experiment further, depending on your Scalar book and your own vision of what such a visualization might look like.
+
+This tutorial is written as two parts:
 
 * **Part 1**: Represent your Scalar book as a network using Python and the Scalar API Explorer
 * **Part 2**: Create an interactive visualization of the network data using D3.js and Canvas
