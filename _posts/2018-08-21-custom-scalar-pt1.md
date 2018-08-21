@@ -28,13 +28,13 @@ In Part 1, I will introduce the goals of this process and walk through the Pytho
 
 ### Why a custom visualization? 
 
-Here is an example of a [default network visualization generated in Scalar](http://scalar.usc.edu/works/jewish-cafes/network-visualization-of-caf-regulars).
+Here is an example of a [built-in network visualization generated in Scalar](http://scalar.usc.edu/works/jewish-cafes/network-visualization-of-caf-regulars).
 
-And here is that same book reimagined as a [visualization using D3.js, Canvas, and custom styling](https://zoews.github.io/interactive-network-viz/viz2.html).
+And here is that same book reimagined as a [custom visualization using D3.js and Canvas](https://zoews.github.io/interactive-network-viz/viz2.html).
 
 If you want to use a pre-built network visualization in Scalar, the process is fairly simple: create a new page, and assign that page the **Connections** layout style. Now when you visit that page, Scalar will fetch all pages and tags between pages (which are expressed as "x is a tag of y" and "x tags y" in the **Relationships** tag of a page). Scalar will then use the JavaScript visualization D3.js to automatically generate a [force directed](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) network visualization.
 
-While this may be sufficient for your needs, we encountered a number of limitations with this format. First, the network visualization takes considerable time to load a book with hundreds of items (up to 30 seconds). Behind the scenes, Scalar is assembling the data by fetching it in batches of 25 pages/tags/media items at a time, and stopping to rest between each request. This pattern of request-wait-request-wait results in a slowed-down experience for the user.
+For our purposes, we encountered a number of limitations with this format. First, the network visualization takes considerable time to load a book with hundreds of items (up to 30 seconds). Behind the scenes, Scalar is assembling the data by fetching it in batches of 25 pages/tags/media items at a time, and stopping to rest between each request. This pattern of request-wait-request-wait results in a slowed-down experience for the user.
 
 Second, the prebuilt options do not provide any options for customizing the final output. We wanted to create a network visualization that (1) excluded any "orphan" pages (pages that lack any tag relationships), (2) includes a more streamlined visual style that matches other aspects of our project, (3) populates a sidebar with names/descriptions/images from the Scalar book, and (4) allows the user to take the additional step of following a link directly to the Scalar page in focus.
 
