@@ -11,7 +11,7 @@ comments: true
 
 [Scalar](https://scalar.me/anvc/scalar/) is a unique and powerful open source publishing platform. Its strength lies in its ability to combine linear and nonlinear methods of exploring media, narratives, annotations, and scholarship within the single organizing structure of a **book**. Scalar also provides [several out-of-the-box options](http://scalar.usc.edu/works/guide2/visualizations?path=index) to visualize your data - including as an interactive network visualization.
 
-But what happens when you want to customize your visualizations beyond what the Scalar presets allow for? I recently ran up against this issue and decided to find a way to create a network visualization "from scratch" (in reality, leveraging a number of excellent open source tools, demos, and APIs!) I used the [Scalar API Explorer](http://scalar.usc.edu/tools/apiexplorer/) to export data about our pages and tags between pages, prepared the network data with Python and various packages (NetworkX, BeautifulSoup, etc.), and wrote a custom network visualization using D3.js and Canvas. 
+But what happens when you want to customize your visualizations beyond what the Scalar presets allow for? I recently ran up against this issue and decided to find a way to create a network visualization "from scratch" (in reality, leveraging a number of excellent open source tools, demos, and APIs!) I used the [Scalar API Explorer](http://scalar.usc.edu/tools/apiexplorer/) to export data about our pages and tags between pages, prepared the network data with Python and various packages (NetworkX, BeautifulSoup, etc.), and wrote a custom network visualization using D3.js and Canvas.
 
 I waded through a fair bit of code and experimentation along the way, and I'd like to share with you some notes, lessons, code, and tools that reuslted from that process. I also tried to identify several places where you may wish to deviate from my process, or to experiment further, depending on your Scalar book and your own vision of what such a visualization might look like.
 
@@ -55,7 +55,7 @@ Okay, I realize the above paragraph may have sound quite strange if you haven't 
 
 A network visualization is a way to represent the relationships between many different individuals/items/entities all at once. It provides your user a summary view of the overall structure of a community (is it made up of totally disconnected cliques? Does everyone know one super-popular person?) Network visualizations often provide methods for exploring and investigating these connections, such as click-and-dragging, zooming, etc. Also, they tend to be [quite pretty and compelling](https://flowingdata.com/category/visualization/network-visualization/).
 
-One way to think of a network is a set of points or "nodes" (which could be anything from people to countries to books to cities) and a set of relationships between those nodes, which are commonly called links or (less intuitively) "edges." 
+One way to think of a network is a set of points or "nodes" (which could be anything from people to countries to books to cities) and a set of relationships between those nodes, which are commonly called links or (less intuitively) "edges."
 
 You can also make things more complicated: sometimes the relationships between nodes are one-way (Alma sends letters to Julie, but Julie doesn't Alma back) or unidirectional, and other times they are two-way or bidirectional. Also, some relationships might be more important than others, which is sometimes captured as the "weight" of an edge/link. 
 
@@ -357,7 +357,6 @@ It's time to bring it all together! We have all of the pieces we need. Now we ne
 
 Note that in Python, the **main()** function is a way to encapsulate everything we wish to do in a program when we call it from the command line. When paired with an **if __name__ == "__main__" : main()** block, the **main()** function will be called when you run the Python program from the command line. This also helps prevent a common problem if you were to import **generate_scalar_network.py** as a module in another program (in the same way we imported json, NetworkX, etc.) Python will actually go ahead and immediately run anything in a module that isn't contained within a function. As a result, if we have our code dangling outside of the **main()** function, it will behave just as planned when we run it from the command line... but may do strange, out-of-order things if we import it in our program. (We can still call main() in the future even after importing the program as a module, however! We would do this by calling generate_scalar_network.main())
 
-(I only learned how to do this very, very recently, and so I am excited to share it here!)
 
 Here is the code we'll need to carry out our program, all packaged in a tidy **main()** function, as well as the __name__ block discussed above:
 
@@ -403,7 +402,6 @@ To view your JSON, you have a few options. You can always open it up in your tex
 ![]({{ site.url }}/img/scalar-network/JSON_in_firefox.png)
 
 The Online JSON Viewer provides a very similar feature -- copy and paste the JSON text data into the field in the Text tab, and then switch to the Viewer tab in the top-left to visualize and explore the results.
-
 
 If you'd rather download a ready-to-go version of the code excerpts above, you may also download [generate_scalar_network.py](https://github.com/zoews/interactive-network-viz/blob/master/parsing-tools/generate_scalar_network.py) using the Raw link at this GitHub page. You can also test it out on an version of our Scalar book's export data at [scalar_output.json](https://github.com/zoews/interactive-network-viz/blob/master/parsing-tools/scalar_output.json)
 
