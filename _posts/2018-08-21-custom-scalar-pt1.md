@@ -57,7 +57,7 @@ A network visualization is a way to represent the relationships between many dif
 
 One way to think of a network is a set of points or "nodes" (which could be anything from people to countries to books to cities) and a set of relationships between those nodes, which are commonly called links or (less intuitively) "edges."
 
-You can also make things more complicated: sometimes the relationships between nodes are one-way (Alma sends letters to Julie, but Julie doesn't Alma back) or unidirectional, and other times they are two-way or bidirectional. Also, some relationships might be more important than others, which is sometimes captured as the "weight" of an edge/link. 
+You can also make things more complicated: sometimes the relationships between nodes are one-way (Alma sends letters to Julie, but Julie doesn't write Alma back) or unidirectional, and other times they are two-way or bidirectional. Also, some relationships might be more important than others, which is sometimes captured as the "weight" of an edge/link. 
 
 For our purposes, we are focused on the "nodes" and "links". In the context of a Scalar book, you can think of the nodes the same way Scalar thinks of them: pages and media items. In our team's example, these pages refer to individuals, cities, cafes, photographs, drawings, etc.
 
