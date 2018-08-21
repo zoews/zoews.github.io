@@ -30,7 +30,7 @@ In Part 1, I will introduce the goals of this process and walk through the Pytho
 
 Here is an example of a [built-in network visualization generated in Scalar](http://scalar.usc.edu/works/jewish-cafes/network-visualization-of-caf-regulars).
 
-And here is that same book reimagined as a [custom visualization using D3.js and Canvas](https://zoews.github.io/interactive-network-viz/viz2.html) – note that as of 8/21/18 this visualization is still a work in progress, with more photography/text and reorganized tagging to come soon.
+And here is that same book reimagined as a [custom visualization using D3.js and Canvas](https://zoews.github.io/interactive-network-viz/viz2.html) – *note that as of 8/21/18 this visualization is still a work in progress, with more photography/text and reorganized tagging to come soon.*
 
 If you want to use a pre-built network visualization in Scalar, the process is fairly simple: create a new page, and assign that page the **Connections** layout style. Now when you visit that page, Scalar will fetch all pages and tags between pages (which are expressed as "x is a tag of y" and "x tags y" in the **Relationships** tag of a page). Scalar will then use the JavaScript visualization D3.js to automatically generate a [force directed](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) network visualization.
 
