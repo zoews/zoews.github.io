@@ -10,7 +10,7 @@
 
 - name: Exploratory Text Analysis of the 'Sexual Harassment in Academia' Dataset
   descr: "What does critical data science add to our understanding of sexual harassment in academia? I investigated the 3,000+ text survey responses to sexual harassment reports in higher ed, and used a variety of NLP/ML methods (feature analysis of a random forest classifier, LDA topic modeling)"
-  image: harassment_viz.png
+  image: harassment_seaborn.png
   post: https://zoews.github.io/articles/2018-08/sexual-harassment
   github: https://github.com/zoews/academic-harassment-data
   defaulturl: https://zoews.github.io/articles/2018-08/sexual-harassment
