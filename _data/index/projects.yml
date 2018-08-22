@@ -18,15 +18,15 @@
   year: 2018
 
 - name: Sentiment Analysis for Exploratory Data Analysis
-  descr: "This peer-reviewed lesson uses sentiment analysis as the basis for an exploratory data analysis of a large textual corpus. It is appropriate for readers with some basic prior experience programming with Python. The lesson went through a peer-review process for Programming Historian, a resource for learning methods in digital scholarship."
+  descr: "This peer-reviewed lesson uses sentiment analysis with NLTK and Python as the basis for exploratory data analysis of a large textual corpus. It is appropriate for readers with some basic prior experience programming with Python."
   image: sentiment.png
   website: https://programminghistorian.org/en/lessons/sentiment-analysis
   defaulturl: https://programminghistorian.org/en/lessons/sentiment-analysis
-  tags: ["python", "nlp", "tutorial"]
+  tags: ["python", "nlp", "tutorial", "nltk"]
   year: 2018
 
 - name: Web Scraping and Data Processing with Python
-  descr: "This Jupyter Notebook was developed for our summer graduate fellowship in digital humanities. We introduce Python along with BeautifulSoup and methods of scraping web data."
+  descr: "This Jupyter Notebook was developed for our summer graduate fellowship in digital humanities. We introduce BeautifulSoup and explore methods of scraping data, grappling with pagination and messy text, and using iteration effectively."
   image: web_scraping_jupyter.png
   website: https://github.com/cornell-colab/SGFDH-Day-6-Web-scraping/blob/master/Day6Notebook.ipynb
   defaulturl: https://github.com/cornell-colab/SGFDH-Day-6-Web-scraping/blob/master/Day6Notebook.ipynb
@@ -43,7 +43,7 @@
   year: 2017
 
 - name: REPARATIVE - A /#JamForLeelah Twine Submission (itch.io)
-  descr: "Newly hired by Reparative Faith Counseling, you take your first unsupervised client. How the sessions go is up to you. (This is a short game about trans youth, narratives, gender, and kindness)"
+  descr: "Newly hired by Reparative Faith Counseling, you take your first unsupervised client. How the sessions go is up to you. (This is a short game about trans youth, narratives, gender, and defying expectations to find kindness.)"
   image: reparative.png
   website: http://jamforleelah81.itch.io/reparative
   tags: ["twine", "game", "writing"]
