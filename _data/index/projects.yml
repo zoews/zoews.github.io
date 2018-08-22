@@ -25,13 +25,13 @@
   tags: ["python", "nlp", "tutorial", "nltk"]
   year: 2018
 
-- name: Web Scraping and Data Processing with Python
-  descr: "This Jupyter Notebook was developed for our summer graduate fellowship in digital humanities. We introduce BeautifulSoup and explore methods of scraping data, grappling with pagination and messy text, and using iteration effectively."
-  image: web_scraping_jupyter.png
-  website: https://github.com/cornell-colab/SGFDH-Day-6-Web-scraping/blob/master/Day6Notebook.ipynb
-  defaulturl: https://github.com/cornell-colab/SGFDH-Day-6-Web-scraping/blob/master/Day6Notebook.ipynb
-  tags: ["python", "web scraping", "tutorial"]
-  year: 2018
+# - name: Web Scraping and Data Processing with Python
+#   descr: "This Jupyter Notebook was developed for our summer graduate fellowship in digital humanities. We introduce BeautifulSoup and explore methods of scraping data, grappling with pagination and messy text, and using iteration effectively."
+#   image: web_scraping_jupyter.png
+#   website: https://github.com/cornell-colab/SGFDH-Day-6-Web-scraping/blob/master/Day6Notebook.ipynb
+#   defaulturl: https://github.com/cornell-colab/SGFDH-Day-6-Web-scraping/blob/master/Day6Notebook.ipynb
+#   tags: ["python", "web scraping", "tutorial"]
+#   year: 2018
 
 
 - name: Visualization of the NASA Space Shuttle program
