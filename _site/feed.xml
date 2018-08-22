@@ -5,9 +5,396 @@
     <description>Data librarian &amp; developer</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 20 Aug 2018 20:58:31 -0400</pubDate>
-    <lastBuildDate>Mon, 20 Aug 2018 20:58:31 -0400</lastBuildDate>
-    <generator>Jekyll v3.8.3</generator>
+    <pubDate>Tue, 21 Aug 2018 20:30:12 -0400</pubDate>
+    <lastBuildDate>Tue, 21 Aug 2018 20:30:12 -0400</lastBuildDate>
+    <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Creating a custom network visualization using the Scalar API Explorer, Part 1</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://scalar.me/anvc/scalar/&quot;&gt;Scalar&lt;/a&gt; is a unique and powerful open source publishing platform. Its strength lies in its ability to combine linear and nonlinear methods of exploring media, narratives, annotations, and scholarship within the single organizing structure of a &lt;strong&gt;book&lt;/strong&gt;. Scalar also provides &lt;a href=&quot;http://scalar.usc.edu/works/guide2/visualizations?path=index&quot;&gt;several out-of-the-box options&lt;/a&gt; to visualize your data - including as an interactive network visualization.&lt;/p&gt;
+
+&lt;p&gt;But what happens when you want to customize your visualizations beyond what the Scalar presets allow for? I recently ran up against this issue and decided to find a way to create a network visualization “from scratch” (in reality, leveraging a number of excellent open source tools, demos, and APIs!) I used the &lt;a href=&quot;http://scalar.usc.edu/tools/apiexplorer/&quot;&gt;Scalar API Explorer&lt;/a&gt; to export data about our pages and tags between pages, prepared the network data with Python and various packages (NetworkX, BeautifulSoup, etc.), and wrote a custom network visualization using D3.js and Canvas.&lt;/p&gt;
+
+&lt;p&gt;I waded through a fair bit of code and experimentation along the way, and I’d like to share with you some notes, lessons, code, and tools that reuslted from that process. I also tried to identify several places where you may wish to deviate from my process, or to experiment further, depending on your Scalar book and your own vision of what such a visualization might look like.&lt;/p&gt;
+
+&lt;p&gt;This tutorial is written as two parts:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Part 1&lt;/strong&gt;: Represent your Scalar book as a network using Python and the Scalar API Explorer&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Part 2&lt;/strong&gt;: Create an interactive visualization of the network data using D3.js and Canvas&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In Part 1, I will introduce the goals of this process and walk through the Python code needed to prepare your data.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;h3 id=&quot;why-a-custom-visualization&quot;&gt;Why a custom visualization?&lt;/h3&gt;
+
+&lt;p&gt;Here is an example of a &lt;a href=&quot;http://scalar.usc.edu/works/jewish-cafes/network-visualization-of-caf-regulars&quot;&gt;built-in network visualization generated in Scalar&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;And here is that same book reimagined as a &lt;a href=&quot;https://zoews.github.io/interactive-network-viz/viz2.html&quot;&gt;custom visualization using D3.js and Canvas&lt;/a&gt; – &lt;em&gt;note that as of 8/21/18 this visualization is still a work in progress, with more photography/text and reorganized tagging to come soon.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;If you want to use a pre-built network visualization in Scalar, the process is fairly simple: create a new page, and assign that page the &lt;strong&gt;Connections&lt;/strong&gt; layout style. Now when you visit that page, Scalar will fetch all pages and tags between pages (which are expressed as “x is a tag of y” and “x tags y” in the &lt;strong&gt;Relationships&lt;/strong&gt; tag of a page). Scalar will then use the JavaScript visualization D3.js to automatically generate a &lt;a href=&quot;https://en.wikipedia.org/wiki/Force-directed_graph_drawing&quot;&gt;force directed&lt;/a&gt; network visualization.&lt;/p&gt;
+
+&lt;p&gt;For our purposes, we encountered a number of limitations with this format. First, the network visualization takes considerable time to load a book with hundreds of items (up to 30 seconds). Behind the scenes, Scalar is assembling the data by fetching it in batches of 25 pages/tags/media items at a time, and stopping to rest between each request. This pattern of request-wait-request-wait results in a slowed-down experience for the user.&lt;/p&gt;
+
+&lt;p&gt;Second, the prebuilt options do not provide any options for customizing the final output. We wanted to create a network visualization that (1) excluded any “orphan” pages (pages that lack any tag relationships), (2) includes a more streamlined visual style that matches other aspects of our project, (3) populates a sidebar with names/descriptions/images from the Scalar book, and (4) allows the user to take the additional step of following a link directly to the Scalar page in focus.&lt;/p&gt;
+
+&lt;h3 id=&quot;our-goal-is-to-prepare-data-for-a-network-visualization&quot;&gt;Our goal is to prepare data for a network visualization&lt;/h3&gt;
+
+&lt;p&gt;While your ideal visualization may differ from ours, the basic process for preparing the data will be the same:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Step 1: Download your Scalar book data using the Scalar API Explorer&lt;/li&gt;
+  &lt;li&gt;Step 2: Restructure the raw Scalar output as network data&lt;/li&gt;
+  &lt;li&gt;Step 3: Add extra network analysis indicators to the visualization, and&lt;/li&gt;
+  &lt;li&gt;Step 4: Gather and export data as single .json file&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When deciding how to prepare data for a visualization, it’s helpful to have a vision of what the final output will look like. In this case, I used &lt;a href=&quot;https://bl.ocks.org/mbostock/ad70335eeef6d167bc36fd3c04378048&quot;&gt;this excellent code sample from Mike Bostock&lt;/a&gt; as a starting point to my design. I noticed that this network visualization relies on a single JSON file called “miserables.json” that consists of a collection of “nodes” and a collection of “links”. Finding this code sample allowed me to set a goal for my data preparation: &lt;strong&gt;represent all tags and pages as links and nodes within a single .json file&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;wait-whats-a-link-whats-a-node&quot;&gt;Wait, what’s a link!? What’s a node!?&lt;/h3&gt;
+
+&lt;p&gt;Okay, I realize the above paragraph may have sound quite strange if you haven’t been mucking around network visualization design lately! Let me explain what’s happening here.&lt;/p&gt;
+
+&lt;p&gt;A network visualization is a way to represent the relationships between many different individuals/items/entities all at once. It provides your user a summary view of the overall structure of a community (is it made up of totally disconnected cliques? Does everyone know one super-popular person?) Network visualizations often provide methods for exploring and investigating these connections, such as click-and-dragging, zooming, etc. Also, they tend to be &lt;a href=&quot;https://flowingdata.com/category/visualization/network-visualization/&quot;&gt;quite pretty and compelling&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;One way to think of a network is a set of points or “nodes” (which could be anything from people to countries to books to cities) and a set of relationships between those nodes, which are commonly called links or (less intuitively) “edges.”&lt;/p&gt;
+
+&lt;p&gt;You can also make things more complicated: sometimes the relationships between nodes are one-way (Alma sends letters to Julie, but Julie doesn’t write Alma back) or unidirectional, and other times they are two-way or bidirectional. Also, some relationships might be more important than others, which is sometimes captured as the “weight” of an edge/link.&lt;/p&gt;
+
+&lt;p&gt;For our purposes, we are focused on the “nodes” and “links”. In the context of a Scalar book, you can think of the nodes the same way Scalar thinks of them: pages and media items. In our team’s example, these pages refer to individuals, cities, cafes, photographs, drawings, etc.&lt;/p&gt;
+
+&lt;p&gt;We can also think about “links” in terms of tags. That is, if a page tags another page, we can think of a link existing between those two pages. In Scalar, tags are unidirectional (page A tags page B, or conversely, page A is tagged by page B), though two tags can exist back and forth between two pages, thus creating a bidirectional relationship.&lt;/p&gt;
+
+&lt;p&gt;Our goal will be to capture information about the “nodes” of our network (in our case, pages of specific kinds) and “links” of our network (in our case, tags recorded in the Scalar book). If you’ve already created a Scalar book with at least two pages and at least one tag, then congratulations! You have enough data to generate a network visualization.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-1-download-your-scalar-book-data-using-the-scalar-api-explorer&quot;&gt;Step 1: Download your Scalar book data using the Scalar API Explorer&lt;/h2&gt;
+
+&lt;p&gt;The Scalar team has done an excellent job anticipating that some users (like you!) may wish to move beyond the presets and limitations of the out-of-the-box platform features. So to facilitate that process, they created an easy mechanism for dumping out some or all of the data from your Scalar book.&lt;/p&gt;
+
+&lt;p&gt;The main tool to accomplish this task, for us, will be the &lt;a href=&quot;http://scalar.usc.edu/tools/apiexplorer/&quot;&gt;Scalar API Explorer&lt;/a&gt;. This is a fun tool to explore in general. For today, we’re going to follow a targeted approach:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Follow the first direction under “Query” and copy and paste the URL from your book into the text box. I generally use the Welcome page in my Scalar book, but I believe this should work no matter which page you choose.&lt;/li&gt;
+  &lt;li&gt;In the options for what to export, select the final one: “All of the book’s content and relationships (potentially slow, use with care)”&lt;/li&gt;
+  &lt;li&gt;Don’t change any of the other options. You should be ignoring past versions and (most importantly) exporting as RDF-JSON.&lt;/li&gt;
+  &lt;li&gt;Click the big “Get API results” button. If this doesn’t seem to work, try refreshing, copy and pasting a different URL, etc. You will know the API is fetching your data when the text box below fills with “Retrieving content…” and it may take a minute or longer to execute.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here’s what the results look like:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/img/scalar-network/api_output.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The Scalar API Explorer will also generate some results in the “Text” field below, but we’re going to ignore this second field and focus entirely on the output in the Data text box (the Text is also included within the Data output, it’s just harder to single out right now.)&lt;/p&gt;
+
+&lt;p&gt;To use this output, we must download it locally to our computer. Copy the entire contents of the Data text field to the clipboard. Next, open up your text editor of choice (I use Visual Studio Code for these sorts of tasks, but you may prefer Sublime Text, or &lt;a href=&quot;https://github.com/collections/text-editors&quot;&gt;another simple text editor&lt;/a&gt;) and paste the output into a blank file. Finally, save this file with .json extension to indicate it is a JSON file. I suggest the filename &lt;strong&gt;scalar_output.json&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.json.org/&quot;&gt;JSON&lt;/a&gt; is a format desgined to easily move collections of data between programs. For a JSON file to be read by a Python or JavaScript program, it must follow certain syntax conventions. However the formatting itself is plain text, and thus is interchangeable with a plain text (.txt) file. It becomes a .json file simply when given the .json extension.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-2-restructure-the-raw-scalar-output-as-network-data&quot;&gt;Step 2: Restructure the raw Scalar output as network data&lt;/h2&gt;
+
+&lt;p&gt;Now that we have our raw data, we must re-structure it a way that will be useful for our network visualization later on.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;(Here’s where you may wish to jump straight to one solution - a ready-to-run Python script called &lt;a href=&quot;https://github.com/zoews/interactive-network-viz/blob/master/parsing-tools/generate_scalar_network.py&quot;&gt;generate_scalar_network.py&lt;/a&gt;. To download directly from GitHub, click the “Raw” button on the preview page, and save the resulting page to your computer as a Python file. Place your &lt;strong&gt;scalar_output.json&lt;/strong&gt; file in the same directory, and run the script in the terminal. However, I recommend you go through the step-by-step breakdown below. It’s likely that you will wish to customize some of the behaviors of the script in order to capture or omit elements of your Scalar book, in whatever way is most meaningful for your end goal. Plus you may wish to take the functions we describe below and further reimagine them, add new functions, etc. Feel free to choose your own adventure!)&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Python is an excellent tool for this task! Open up your text editor of choice again and save a new file as &lt;strong&gt;generate_scalar_network.py&lt;/strong&gt; . We will be using Python 3 for our code examples here. If you need a refresher on using Python 3, such as on using pip to install Python libraries (you’ll need to install the libraries below) or running Python programs from the command line, you may wish to explore &lt;a href=&quot;https://www.python.org/about/gettingstarted/&quot;&gt;a few resources&lt;/a&gt; before continuing on.&lt;/p&gt;
+
+&lt;h3 id=&quot;loading-scalar-data-into-python&quot;&gt;Loading Scalar data into Python&lt;/h3&gt;
+
+&lt;p&gt;Our first step is to import any libraries we’ll need. At the top of your new Python program, let’s add the following:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;json&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;bs4&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BeautifulSoup&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;networkx&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nx&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;math&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Here’s what the following libraries will help us with:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;json contains methods to import, parse, and export JSON in Python&lt;/li&gt;
+  &lt;li&gt;BeautifulSoup is a library for parsing HTML inn Python. This will help us extract descriptions and links from our Scalar pages.&lt;/li&gt;
+  &lt;li&gt;NetworkX contains a number of network analysis tools. We will use it to calculate betweenness centrality scores for our nodes (more later)&lt;/li&gt;
+  &lt;li&gt;Math adds extra math functionality to Python. We will use it to round floats down to the nearest integer.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Next, we need a function to read the raw JSON dump from the Scalar API Explorer into a useful Python data structure. Below is a function that accepts JSON as input and returns the data as a dictionary for Python to use&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;loadScalarData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# loads JSON data exported from the Scalar API Explorer tool&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# and parses as a dictionary for further manipulation with Python here&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;data_for_output&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;read_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;strict&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;out_dict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+            
+            &lt;span class=&quot;c&quot;&gt;# also add the name of the current dictionary to the dcitionary itself and assign to the key 'key'&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;# (because we're outputting a list of dictionaries, the key name would be lost otherwise)&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;out_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'key'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;data_for_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;out_dict&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data_for_output&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;structuring-scalar-data-as-a-network-of-nodes-and-links&quot;&gt;Structuring Scalar data as a network of nodes and links&lt;/h3&gt;
+
+&lt;p&gt;Here’s where things get trickier. Our goal is to take this unfiltered, raw export of Scalar data and isolate the data that will be relevant for our network visualization: nodes (in the Scalar book, pages) and links (in the Scalar book, tags). To accomplish this task, we’ll use a few functions below.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;For this first function, please notes:  &lt;strong&gt;the function only looks for pages that are tagged at least once somewhere in the book&lt;/strong&gt;. I omit any page that is completely disconnected from all others. These disconnected, floating pages are sometimes called “orphan nodes”. To include orphan nodes would require a different method of generating the lists of links and nodes that I apply here, and is also outside the scope of our team’s visualization. That being said, you may find it useful to include these floating nodes in your own visualization. If so, please look for a function that includes orphan nodes in Part 2 of this tutorial.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;First, here is the function to generate a list of all tags and all (tagged) nodes:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getTagsAndTaggedNodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reference_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;excludeMedia&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# extracts all tags and pages that are tagged somewhere in the Scalar book&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# represents each item (tags/pages) as a dictionary&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# and returns a list for each item type&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;tags_for_network_links&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tagged_pages_for_network_nodes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+
+
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reference_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;current_item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reference_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'urn:scalar:tag:'&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'key'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;body&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'http://www.openannotation.org/ns/hasBody'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'value'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'http://www.openannotation.org/ns/hasTarget'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'value'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+            &lt;span class=&quot;c&quot;&gt;# ignore tags here that involve media nodes (almost always images)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;excludeMedia&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'media'&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;body&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'media'&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                    &lt;span class=&quot;k&quot;&gt;continue&lt;/span&gt;
+            
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;body&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tagged_pages_for_network_nodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;tagged_pages_for_network_nodes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tagged_pages_for_network_nodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;tagged_pages_for_network_nodes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            
+            &lt;span class=&quot;n&quot;&gt;tag_dict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;s&quot;&gt;'source'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;s&quot;&gt;'target'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            
+            &lt;span class=&quot;n&quot;&gt;tags_for_network_links&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tag_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tags_for_network_links&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tagged_pages_for_network_nodes&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;From poking around the Scalar output JSON, I figured out that the prefix indicating a tag is ‘urn:scalar:tag’. I further discovered that the “body” (or starting point) and “target” (or end point) of a tag is contained in current_item[‘http://www.openannotation.org/ns/hasBody’][0][‘value’] and current_item[‘http://www.openannotation.org/ns/hasTarget’][0][‘value’] . The goal of this program is to extract this data into tidy tags (or pairs of ‘body’ and ‘target’ values). Then as we go, we fill up the &lt;strong&gt;tagged_pages_for_network_nodes&lt;/strong&gt; variable with a list of every unique page we discover in our tags. At this point, we are keeping track only of the name of our pages, not any of their other attributes or content.&lt;/p&gt;
+
+&lt;p&gt;Note that this function includes an &lt;strong&gt;excludeMedia&lt;/strong&gt; parameter that defaults to true. This is because, for our team’s visualization purposes, we did not want to include Media pages in the same way that we include non-media pages. However, if you would like to include both types of pages in your network visualization, simply add “excludeMedia=True” when you call &lt;strong&gt;getTagsAndTaggedNodes()&lt;/strong&gt; in the &lt;strong&gt;main()&lt;/strong&gt; loop (see Step 4 below).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;getTagsAndTaggedNodes()&lt;/strong&gt;returns two lists: &lt;strong&gt;tags_for_network_links&lt;/strong&gt; and &lt;strong&gt;tagged_pages_for_network_nodes&lt;/strong&gt;. While the tags are 100% ready to go at this point, we need to do further parsing of the nodes to gather all of the relevant .&lt;/p&gt;
+
+&lt;h3 id=&quot;further-parsing-the-network-nodes-pages&quot;&gt;Further parsing the network nodes (pages)&lt;/h3&gt;
+
+&lt;p&gt;Our list of nodes right now is just a collection of ids. We need to actually get all of the relevant data that we’ll need for our visualization. At this point, it’s helpful to ask the question: &lt;strong&gt;what do we actually want our users to see and/or be able to interact with?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;In our case, our team would like our users to:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Read the name of people, cafes, and cities (stored in the name field of the relevant pages)&lt;/li&gt;
+  &lt;li&gt;See a link the user can follow to the full Scalar page (stored as the URL of the Scalar page)&lt;/li&gt;
+  &lt;li&gt;For pages with extra content like text and embedded photos, view a preview of this content on the sidebar (stored within embedded media information in the Scalar page. Note that this may require additional fiddling to work for your data).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here is the function to gather all the data relevant for those tasks (which is the most complex of all functions we’ll use in Part 1):&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;parseNodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scalar_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pages_identified_in_links&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# fetch all relevant data about the pages and return as list of nodes&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# including checking for additional page data (text and embedded images)&lt;/span&gt;
+    
+    &lt;span class=&quot;c&quot;&gt;# note - you may wish to modify these parameters to include significant data&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# scraping tags is more straightforward, whereas metadata categories/etc. will be specific to your Scalar book&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;list_of_parsed_nodes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pages_identified_in_links&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;current_node_dict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scalar_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;imageURL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;extraData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;no&quot;&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;# look for reference to media&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;references&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_node_dict&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://purl.org/dc/terms/references&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;imageURL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;references&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;media&quot;&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;references&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;value&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
+                &lt;span class=&quot;c&quot;&gt;# if reference to media found, fetch URL and description from media page&lt;/span&gt;
+                &lt;span class=&quot;c&quot;&gt;# using BeautifulSoup to parse the HTML descriptions&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;content&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scalar_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://rdfs.org/sioc/ns#content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'value'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;soup&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BeautifulSoup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;html.parser&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;imageURL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;soup&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;href&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;soup&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;
+
+                &lt;span class=&quot;c&quot;&gt;# ceate an abbreviated description (to encourage users to go to Scalar for full description)&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;...&quot;&lt;/span&gt;
+        
+        &lt;span class=&quot;c&quot;&gt;# when directing the user to the Scalar page via the &quot;url&quot; attribute in the visualization&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# we can ignore the extra version suffix, such as &quot;cafe_central.4&quot; and simply send them to&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# &quot;cafe_central&quot; -- otherwise Scalar may omit the page description (for some reason)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'.'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;elif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'.'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;elif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'.'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;# make sure the node is fetching the name correctly, assign to _name&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_node_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'http://purl.org/dc/terms/title'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'value'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;except&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;# assemble a dictionary to describe the current node&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;node_out&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;'id'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;'name'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;'url'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;'colour'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;	&lt;span class=&quot;s&quot;&gt;&quot;#2a2a2a&quot;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;# optional imageURL and description paramaters for the nodes, if the pages include this data&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# will also include an &quot;extraData&quot; parameter to indicate if either attribute exists, for use by&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# the network viz later on&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;imageURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;node_out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;imageURL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;imageURL&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;extraData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;yes&quot;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;node_out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;description&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;extraData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;yes&quot;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;node_out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;extraData&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;extraData&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;list_of_parsed_nodes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node_out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list_of_parsed_nodes&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This function works by iterating through the list of tagged pages. For every page, we start to construct all of the variables we’ll need to describe our nodes, such as the name, the URL, etc. Each of these variables eventually gets stored in a single dictionary, &lt;strong&gt;node_out&lt;/strong&gt;, and appended to our working variable &lt;strong&gt;list_of_parsed_nodes&lt;/strong&gt;. After iterating through every page, we can then return the &lt;strong&gt;list_of_parsed_nodes&lt;/strong&gt; variable with all of the data we need to describe the nodes in our network.&lt;/p&gt;
+
+&lt;p&gt;You may notice a few peculiar blocks of code. First, I included a block of code to deal with text descriptions and embedded images. If your page includes this kind of data, you may wish to include it along with other information about your nodes. That way, later on when you visualize the network with JavaScript, you can use the text and images to generate a nice little preview (in our case, within the sidebar). However, the text and/or image appear in the Scalar API Explorer output JSON as a string of raw HTML. This is probably overkill for our purposes - it would be better to isolate the text and isolate an embedded URL.&lt;/p&gt;
+
+&lt;p&gt;BeautifulSoup is a Python library that excels in just this situation: parsing website HTML in such a way that Python can quickly identify the meaningful parts and pass them along to simpler variables. We do that here in the if “media” block. &lt;strong&gt;Note: this is another area you may wish to rewrite a bit, depending on how your Scalar book is structured.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Second, I wrote a series of if statements to deal with stripping out the page version suffix of pages. In Scalar, if you continue to edit pages, the platform will automatically create new versions of the page such as “page.2”, “page.3”, and so on. The most recent version is included in the tags and in the names here. However! I’ve noticed that dropping a URL into your browser with that “page.3” ending leads the user to a strange limited version of a Scalar page. To get around this issue, we can remove the “.3” suffix entirely, and the URL of “scalar.usc.edu/blahblahblah….page” will go to the correct place.&lt;/p&gt;
+
+&lt;p&gt;At the end of this function call, it will return a list of nodes - but unlike the first list that contained only names, we now have a list of dictionaries packed with (almost) all of the information about the nodes we’ll need for our network visualization.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-3-add-extra-network-analysis-indicators-to-the-visualization&quot;&gt;Step 3: Add extra network analysis indicators to the visualization&lt;/h2&gt;
+
+&lt;p&gt;At this point, we could call it a day and declare our node and link lists complete. However! I found it helpful to add one more piece of data to our network: betweenness centrality scores.&lt;/p&gt;
+
+&lt;p&gt;Why betweenness centrality? Consider the question: how important is any one node to the network as a whole? You might say “the node in the middle is the most important.” But where exactly is the “middle”? And is the concept of “in the middle” a sufficient indicator of what makes any node important to the network as a whole?&lt;/p&gt;
+
+&lt;p&gt;Imagine for a moment a city with a subway or train network. You may imagine several subway lines running from the far edges of the transit network (where the stops are more isolated) into the downtown area. Closer to downtown, more and more lines may criss-cross at any given subway stop. Which of these subway stops is most important? Let’s imagine one of these downtown stops is suddenly closed due to a mechanical failure. One way you might describe the degree of inconvenience of this closure is to say “how many train routes will now be impossible for a commuter to travel? Or how many will require a lengthy detour?”&lt;/p&gt;
+
+&lt;p&gt;Betweenness centrality is a measure of exactly that concept: of all possible routes an individual could travel from starting-point to end-point in the network, how manny of the most efficient routes (the kind we usually take to commute somewhere) travel through a given node? If the number is very high, we can say that this node has a high betweenness centrality score. If it’s low, we say it has a low score. (If I’ve piqued your interest, here’s an &lt;a href=&quot;https://cambridge-intelligence.com/keylines-faqs-social-network-analysis/&quot;&gt;interesting writeup with visualizations&lt;/a&gt; of BC and other social network measures.)&lt;/p&gt;
+
+&lt;p&gt;How do we add betweenness centrality to our network? We could wait until the JavaScript visualization step to generate these scores – but then we have to waste the user’s time calculating the numbers. Instead, let’s include a process now to add those scores to the nodes ahead of time.&lt;/p&gt;
+
+&lt;p&gt;First, we need to generate the scores. Luckily, the NetworkX network analysis package in Python has a pithy way to accomplish this goal. Below is a function using NetworkX (which we imported to our program as &lt;strong&gt;nx&lt;/strong&gt;) to generate scores:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;generateBetweennessCentrality&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;final_list_links&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;final_list_nodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# use networkx to generate betweennenss centrality for nodes and return as dict&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;nodes_for_nx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'id'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;final_list_nodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;edges_for_nx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'source'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'target'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;final_list_links&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;G&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add_nodes_from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nodes_for_nx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add_edges_from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edges_for_nx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;betweenness_centrality&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;At this part of the process, you may wish to add even more network analysis measures. If you’re curious, NetworkX also includes a rudimentary &lt;a href=&quot;https://networkx.github.io/documentation/networkx-1.10/reference/drawing.html&quot;&gt;network viz drawing tool&lt;/a&gt;, which would help you generate a visualization directly from Python! However, D3 is much more capable at generating pretty and interactive visualizations, as you will see (I hope!) in Part 2.&lt;/p&gt;
+
+&lt;p&gt;We also need to write one more piece of functionality: adding the betweenness centrality scores of our nodes to our list of node dictionaries. This is slightly inconvenient given the way we’ve structured our node data as a list of dictionanries (in a more complex program, it might be a good time to ask the question: should I have created classes at some point?) Here, we can iterate over each node in our list, add the attribute, and reassemble and return our new list:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addBetweennessCentralityToNodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;betweenness_centrality_scores&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;final_list_links&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;final_list_nodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# add BC scores as a new parameter, 'betweeness_centrality_score'&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# as an integar between 0 and 100 to use in network viz (as font size, etc.)&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;final_output&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;final_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'links'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;final_list_links&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;final_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'nodes'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;final_list_nodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;current_bc_score&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;betweenness_centrality_scores&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'id'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# let's convnert this percentage value to an integer between 0 to 100, roundng up &lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'betweenness_centrality_score'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;math&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ceil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current_bc_score&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;final_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'nodes'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;final_output&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;step-4-gather-and-export-data-as-single-json-file&quot;&gt;Step 4: Gather and export data as single .json file&lt;/h2&gt;
+
+&lt;p&gt;It’s time to bring it all together! We have all of the pieces we need. Now we need to write a single &lt;strong&gt;main())&lt;/strong&gt; function that calls the functions, stores their output as we go, and exports the single final output as a .json file.&lt;/p&gt;
+
+&lt;p&gt;Note that in Python, the &lt;strong&gt;main()&lt;/strong&gt; function is a way to encapsulate everything we wish to do in a program when we call it from the command line. When paired with an &lt;strong&gt;if __name__ == “__main__” : main()&lt;/strong&gt; block, the &lt;strong&gt;main()&lt;/strong&gt; function will be called when you run the Python program from the command line. This also helps prevent a common problem if you were to import &lt;strong&gt;generate_scalar_network.py&lt;/strong&gt; as a module in another program (in the same way we imported json, NetworkX, etc.) Python will actually go ahead and immediately run anything in a module that isn’t contained within a function. As a result, if we have our code dangling outside of the &lt;strong&gt;main()&lt;/strong&gt; function, it will behave just as planned when we run it from the command line… but may do strange, out-of-order things if we import it in our program. (We can still call main() in the future even after importing the program as a module, however! We would do this by calling generate_scalar_network.main())&lt;/p&gt;
+
+&lt;p&gt;Here is the code we’ll need to carry out our program, all packaged in a tidy &lt;strong&gt;main()&lt;/strong&gt; function, as well as the &lt;strong&gt;name&lt;/strong&gt; block discussed above:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# set filenames for input .json (from Scalar API explorer) and output .json&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;input_file&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;scalar_output.json&quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;output_file&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clean_scalar_data.json&quot;&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# load Scalar data .json file into Python data&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;scalar_data_dict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;loadScalarData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# generate final list of links and nodes&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;final_links&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;linked_pages&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getTagsAndTaggedNodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scalar_data_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;final_nodes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parseNodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scalar_data_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;linked_pages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# generate betweenness centrality scores for nodes using NetworkX &lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;betweenness_centrality_scores&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;generateBetweennessCentrality&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;final_links&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;final_nodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# one final step to collect links and nodes (with betweenness-centrality scores added) into a single dictionary&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# (this is assuming this is the most useful way to pass the data to a network visaulization&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# BUT you may wish to modify or rewrite this function if your visualization calls for another way to organize)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;final_output&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addBetweennessCentralityToNodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;betweenness_centrality_scores&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;final_links&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;final_nodes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;w&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;write_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dump&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;final_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;write_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'clean data successfully written to disk as &quot;clean_scalar_data.json&quot;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;And you’re done!! If everything went as planned, when you run your &lt;strong&gt;generate_scalar_network.py&lt;/strong&gt; script in a directory (and remember to plop in the &lt;strong&gt;scalar_output.json&lt;/strong&gt; dump from the Scalar API Explorer beforehand) you should see a tidy &lt;strong&gt;clean_scvalar_data.json&lt;/strong&gt; file in the same folder.&lt;/p&gt;
+
+&lt;p&gt;To view your JSON, you have a few options. You can always open it up in your text editor of choice. Mozilla Firefox actually does an excellent job of visualizing JSON and letting you explore the hierarchy a bit. Here’s a sample of what that looks like:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/img/scalar-network/JSON_in_firefox.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The Online JSON Viewer provides a very similar feature – copy and paste the JSON text data into the field in the Text tab, and then switch to the Viewer tab in the top-left to visualize and explore the results.&lt;/p&gt;
+
+&lt;p&gt;If you’d rather download a ready-to-go version of the code excerpts above, you may also download &lt;a href=&quot;https://github.com/zoews/interactive-network-viz/blob/master/parsing-tools/generate_scalar_network.py&quot;&gt;generate_scalar_network.py&lt;/a&gt; using the Raw link at this GitHub page. You can also test it out on an version of our Scalar book’s export data at &lt;a href=&quot;https://github.com/zoews/interactive-network-viz/blob/master/parsing-tools/scalar_output.json&quot;&gt;scalar_output.json&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;If something goes wrong, don’t give up! It’s likely means that there’s something about your scalar book export that requires a little more fiddling in the way we’ve implemented the functions here. Feel free to shoot me an e-mail if you feel totally stuck too!&lt;/p&gt;
+
+&lt;h2 id=&quot;wrapping-up&quot;&gt;Wrapping Up&lt;/h2&gt;
+
+&lt;p&gt;You’ve now got some network data to work with! If you’re comfortable getting a JavaScript excerpt up and running, you could even plug in this network JSON into the &lt;a href=&quot;https://bl.ocks.org/mbostock/ad70335eeef6d167bc36fd3c04378048&quot;&gt;bl.ocks network visualization example&lt;/a&gt; we mentioned above. In Part 2, we will explain in detail how to integrate these pieces and pretty radically redesign this code excerpt to work better in highlighting your Scalar data.&lt;/p&gt;
+
+&lt;p&gt;Congratulations for making it through! More next time. And in the meantime: happy experimenting!&lt;/p&gt;
+</description>
+        <pubDate>Tue, 21 Aug 2018 00:00:00 -0400</pubDate>
+        <link>http://localhost:4000/articles/2018-08/custom-scalar-pt1</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2018-08/custom-scalar-pt1</guid>
+        
+        
+        <category>tutorial</category>
+        
+      </item>
     
       <item>
         <title>What does critical data science add to our understanding of sexual harassment in academia?</title>
