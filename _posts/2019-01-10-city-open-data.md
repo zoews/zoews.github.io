@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Stories from the city, stories from the cloud: an introduction to city open data portals in the United States"
-date:   2019-01-05 17:22:00
+date:   2019-01-10 17:22:00
 categories: [essay]
 comments: true
 image:
