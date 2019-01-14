@@ -3,6 +3,7 @@ layout: post
 title: Creating a custom network visualization using the Scalar API Explorer, Part 1
 summary: "Represent your Scalar book as a network using Python and the Scalar API Explorer"
 categories: [tutorial]
+full: true
 image:
   feature: scalar-network/network_viz_header.jpeg
 modified: 2018-08-21

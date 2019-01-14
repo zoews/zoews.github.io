@@ -5,9 +5,30 @@
     <description>Data librarian &amp; developer</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 22 Aug 2018 00:10:15 -0400</pubDate>
-    <lastBuildDate>Wed, 22 Aug 2018 00:10:15 -0400</lastBuildDate>
+    <pubDate>Mon, 14 Jan 2019 10:23:20 -0500</pubDate>
+    <lastBuildDate>Mon, 14 Jan 2019 10:23:20 -0500</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Stories from the city, stories from the cloud: an introduction to city open data portals in the United States</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://medium.com/messy-data/stories-from-the-city-stories-from-the-cloud-an-introduction-to-city-open-data-portals-in-the-636ab60500bc&quot;&gt;&lt;img src=&quot;http://localhost:4000/img/stories_from_city.png&quot; alt=&quot;bar chart showing number of datasets in open data portal for cities with top fifteen highest Census ratings.&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;What stories can you tell with a city’s open data? And what’s missing from the data?…&lt;/p&gt;
+
+  &lt;p&gt;In this post, I will introduce you to the producers and gatekeepers of civic data that Google describes as they play out in practice. When it comes to cities, these questions tend to revolve around the city open data portal: a model adopted nation-wide that facilitates tens of thousands of datasets, a buzzing cross-section of hyper-local civic data activity, and a service almost exclusively built on just one tech company’s platform.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://medium.com/messy-data/stories-from-the-city-stories-from-the-cloud-an-introduction-to-city-open-data-portals-in-the-636ab60500bc&quot;&gt;Read on Messy Data (my new feminist critical data science blog!)&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sat, 05 Jan 2019 12:22:00 -0500</pubDate>
+        <link>http://localhost:4000/articles/2019-01/city-open-data</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2019-01/city-open-data</guid>
+        
+        
+        <category>essay</category>
+        
+      </item>
     
       <item>
         <title>Creating a custom network visualization using the Scalar API Explorer, Part 1</title>

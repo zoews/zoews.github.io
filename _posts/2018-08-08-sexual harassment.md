@@ -4,6 +4,7 @@ title:  "What does critical data science add to our understanding of sexual hara
 date:   2018-08-07 17:22:00
 categories: [essay]
 comments: true
+full: true
 image:
   feature: harassment/header.png
 summary: A cautious introduction to NLP and Machine Learning methods in analyzing thousands of anonymous sexual harassment & assault reports.
