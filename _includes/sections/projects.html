@@ -10,14 +10,14 @@
 
 {% for project in site.data.index.projects %}
     <div class="row">
-       <div class="col l7">
+       <div class="col l8">
                 {% if project.image %}
-                    <a href="{{ project.defaulturl }} "><img src="../img/{{ project.image }}" style="float:left; margin:15px; border:2px solid #021a40;"></a>
+                    <a href="{{ project.defaulturl }} " target="_blank"><img src="../img/{{ project.image }}" style="float:left; margin:10px 15px 15px 15px; border:2px solid #021a40;"></a>
                 {% endif %}
-                <a href="{{ project.defaulturl }} "><h3 style="margin: 0">{{ project.name }}  [{{ project.year }}]</h2></a>
+                <a href="{{ project.defaulturl }} "><h4 style="margin: 0">{{ project.name }}  [{{ project.year }}]</h4></a>
                 <p style="margin: 0">{{ project.descr }} </p>
 
-                {% if project.website %}
+                <!-- {% if project.website %}
                    <b><a href="{{ project.website }} ">Project</a></b>&ensp; &ensp; &ensp; &ensp; 
                 {% endif %}
                 {% if project.post %}
@@ -25,7 +25,7 @@
                 {% endif %}
                 {% if project.github %}
                     <b><a href="{{ project.github }} ">GitHub repo</a></b>
-                {% endif %}
+                {% endif %} -->
 
                 <br>
 

@@ -1,51 +1,42 @@
-- name: Mapping Modern Diasporic Jewish Cultures
-  descr: "Transnational Jewish modernity was born in the café. As the web developer lead, I created APIs and wrote scripts to transport GeoJSON data and generate network visualizations. (Full website launch coming Fall 2018)"
-  image: cafe.png
-  post: https://zoews.github.io/articles/2018-08/custom-scalar-pt1
-  # website: http://mapping.judaic.lsa.umich.edu
-  github: https://github.com/zoews/interactive-network-viz
-  defaulturl: https://zoews.github.io/articles/2018-08/custom-scalar-pt1
-  tags: ["data visualization", "network analysis", "javascript", "python", "D3.js"]
+- name: Exploratory Text Analysis of the 'Sexual Harassment in Academia' Dataset
+  descr: "What does critical data science add to our understanding of sexual harassment in academia? I investigated the 3,000+ text survey responses using a variety of NLP/ML methods (feature analysis of a random forest classifier, LDA topic modeling)"
+  image: harassment_seaborn.jpg
+  defaulturl: https://zoews.github.io/articles/2018-08/sexual-harassment
+  tags: ["python", "nlp", "machine learing", "tutorial", "feature selection"]
   year: 2018
 
-- name: Exploratory Text Analysis of the 'Sexual Harassment in Academia' Dataset
-  descr: "What does critical data science add to our understanding of sexual harassment in academia? I investigated the 3,000+ text survey responses to sexual harassment reports in higher ed, and used a variety of NLP/ML methods (feature analysis of a random forest classifier, LDA topic modeling)"
-  image: harassment_seaborn.jpg
-  post: https://zoews.github.io/articles/2018-08/sexual-harassment
-  github: https://github.com/zoews/academic-harassment-data
-  defaulturl: https://zoews.github.io/articles/2018-08/sexual-harassment
-  tags: ["python", "nlp", "machine learing", "tutorial"]
+- name: Climate Change Opinion Visualization
+  descr: "Do extreme weather events correlate with unexpected climate change beliefs? As the data science lead, I scraped and transformed NOAA climate data & survey results with sqlite & pandas to ingest into classifier."
+  image: climate_viz.png
+  defaulturl: https://www.paulsvsp.co/projects/climate-change-opinion-visualization
+  tags: ["modeling", "python", "SQL", "data visualization", "scraping & transforming"]
   year: 2018
 
 - name: Sentiment Analysis for Exploratory Data Analysis
   descr: "This peer-reviewed lesson uses sentiment analysis with NLTK and Python as the basis for exploratory data analysis of a large textual corpus. It is appropriate for readers with some basic prior experience programming with Python."
   image: sentiment.png
-  website: https://programminghistorian.org/en/lessons/sentiment-analysis
   defaulturl: https://programminghistorian.org/en/lessons/sentiment-analysis
   tags: ["python", "nlp", "tutorial", "nltk"]
   year: 2018
 
-# - name: Web Scraping and Data Processing with Python
-#   descr: "This Jupyter Notebook was developed for our summer graduate fellowship in digital humanities. We introduce BeautifulSoup and explore methods of scraping data, grappling with pagination and messy text, and using iteration effectively."
-#   image: web_scraping_jupyter.png
-#   website: https://github.com/cornell-colab/SGFDH-Day-6-Web-scraping/blob/master/Day6Notebook.ipynb
-#   defaulturl: https://github.com/cornell-colab/SGFDH-Day-6-Web-scraping/blob/master/Day6Notebook.ipynb
-#   tags: ["python", "web scraping", "tutorial"]
-#   year: 2018
+- name: Mapping Modern Diasporic Jewish Cultures
+  descr: "Transnational Jewish modernity was born in the café. As the web developer lead, I created APIs and wrote scripts to transport GeoJSON data and generate network visualizations."
+  image: cafe.png
+  defaulturl: https://zoews.github.io/articles/2018-08/custom-scalar-pt1
+  tags: ["data visualization", "network analysis", "javascript", "python", "D3.js"]
+  year: 2018
 
-
-- name: Visualization of the NASA Space Shuttle program
-  descr: "'...As an inaugural project to get our digital projects studio thinking and managing a project, we used a dataset that recorded the distance traveled by each space shuttle launch from 1981 – 2011 and worked to visualize the total miles traveled for each shuttle as a hypothetical race to the red planet...''"
-  image: nasa.png
-  website: https://vimeo.com/241552671
-  post: https://clarklabs.lib.umich.edu/2017/11/08/using_processing_visualize_space_exploration/
-  tags: ["data visualization", "java/processing"]
-  year: 2017
+- name: Web Scraping and Data Processing with Python
+  descr: "This Jupyter Notebook was developed for our summer graduate fellowship in digital humanities. We introduce BeautifulSoup and explore methods of scraping data, grappling with pagination and messy text, and using iteration effectively."
+  image: web_scraping_jupyter.png
+  defaulturl: https://github.com/cornell-colab/SGFDH-Day-6-Web-scraping/blob/master/Day6Notebook.ipynb
+  tags: ["python", "web scraping", "tutorial"]
+  year: 2018
 
 - name: REPARATIVE - A /#JamForLeelah Twine Submission (itch.io)
   descr: "Newly hired by Reparative Faith Counseling, you take your first unsupervised client. How the sessions go is up to you. (This is a short game about trans youth, narratives, gender, and defying expectations to find kindness.)"
   image: reparative.png
-  website: http://jamforleelah81.itch.io/reparative
+  defaulturl: http://jamforleelah81.itch.io/reparative
   tags: ["twine", "game", "writing"]
   year: 2015
 

@@ -1,19 +1,15 @@
 # careers section data
 # if you don't have language feature(language.yml is empty), ignore "i18n" items
 - name: Cornell University
-  link: http://library.cornell.edu/
+  link: https://olinuris.library.cornell.edu/about/departments-staff/research-learning-services
   date: 2018 - Now
   job: Social Science and Geospatial Data Librarian
 
 - name: University of Michigan
   link: http://si.umich.edu/
-  date: 2016 - Now
-  job: Programmer/Analyst (Consultant)
+  date: 2016 - 2019
+  job: Programmer/Analyst (Consultant) & Data Visualization Intern
 
-- name: University of Michigan
-  link: http://si.umich.edu/
-  date: 2016 - 2018
-  job: Data Visualization Intern
 
 - name: City University of Seattle
   link: https://library.cityu.edu

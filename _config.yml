@@ -35,9 +35,9 @@ kramdown:
 owner:
   name: Zoë Wilkinson Saldaña
   avatar: zoews_square_small.jpg
-  job: "Social Science and Geospatial Data Librarian"
-  bio: "Data, cats, pinball, Python, NLP"
-  email: zmw25@cornell.edu
+  job: "Data scienctist + data librarian"
+  # bio: "Data, cats, pinball, Python, NLP"
+  email: zoewsaldana@gmail.com
 #   disqus-shortname: renyuanzblog
   twitter: zoedottxt #username
   facebook: #username
