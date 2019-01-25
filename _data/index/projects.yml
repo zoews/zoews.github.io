@@ -12,18 +12,18 @@
   tags: ["modeling", "python", "SQL", "data visualization", "scraping & transforming"]
   year: 2018
 
+- name: Mapping Modern Diasporic Jewish Cultures
+  descr: "Transnational Jewish modernity was born in the café. As the web developer lead, I created APIs and wrote scripts to transport GeoJSON data and generate network visualizations."
+  image: cafe.png
+  defaulturl: https://mapping.judaic.lsa.umich.edu
+  tags: ["data visualization", "network analysis", "javascript", "python", "D3.js"]
+  year: 2018
+
 - name: Sentiment Analysis for Exploratory Data Analysis
   descr: "This peer-reviewed lesson uses sentiment analysis with NLTK and Python as the basis for exploratory data analysis of a large textual corpus. It is appropriate for readers with some basic prior experience programming with Python."
   image: sentiment.png
   defaulturl: https://programminghistorian.org/en/lessons/sentiment-analysis
   tags: ["python", "nlp", "tutorial", "nltk"]
-  year: 2018
-
-- name: Mapping Modern Diasporic Jewish Cultures
-  descr: "Transnational Jewish modernity was born in the café. As the web developer lead, I created APIs and wrote scripts to transport GeoJSON data and generate network visualizations."
-  image: cafe.png
-  defaulturl: https://zoews.github.io/articles/2018-08/custom-scalar-pt1
-  tags: ["data visualization", "network analysis", "javascript", "python", "D3.js"]
   year: 2018
 
 - name: Web Scraping and Data Processing with Python
