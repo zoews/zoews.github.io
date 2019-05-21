@@ -5,9 +5,30 @@
     <description>Data librarian &amp; developer</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 25 Jan 2019 12:49:46 -0500</pubDate>
-    <lastBuildDate>Fri, 25 Jan 2019 12:49:46 -0500</lastBuildDate>
-    <generator>Jekyll v3.6.2</generator>
+    <pubDate>Tue, 21 May 2019 10:13:12 -0400</pubDate>
+    <lastBuildDate>Tue, 21 May 2019 10:13:12 -0400</lastBuildDate>
+    <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>On visualizing the loveliness of the pinball universe</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://medium.com/messy-data/on-visualizing-the-loveliness-of-the-pinball-universe-ae00f018ff27&quot;&gt;&lt;img src=&quot;http://localhost:4000/img/pinball_network.png&quot; alt=&quot;network graph of pinball machines showing relationship between machines across United States&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;It makes me happy to think somewhere in the glowing bubbles are machines that I’ve fed with quarters and hopefully treated with care. And yet, as I try to wrap my mind around the way pinball is growing, I realize how small and personal it feels to me now. Am I really part of this contiguous world? What would my pinball universe look like, if not this one?&lt;/p&gt;
+
+  &lt;p&gt;In this post, I combine creative nonfiction with network analysis. I introduce the concepts of betweenness-centrality, fetching and transforming API data, and the importance of representing experiences of queer embodiment and embodied play in community.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://medium.com/messy-data/on-visualizing-the-loveliness-of-the-pinball-universe-ae00f018ff27&quot;&gt;Read on Messy Data&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 10 Mar 2019 13:22:00 -0400</pubDate>
+        <link>http://localhost:4000/articles/2019-03/pinball</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2019-03/pinball</guid>
+        
+        
+        <category>essay</category>
+        
+      </item>
     
       <item>
         <title>Stories from the city, stories from the cloud: an introduction to city open data portals in the United States</title>

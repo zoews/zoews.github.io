@@ -8,7 +8,7 @@
 - name: Climate Change Opinion Visualization
   descr: "Do extreme weather events correlate with unexpected climate change beliefs? As the data science lead, I scraped and transformed NOAA climate data & survey results with sqlite & pandas to ingest into classifier."
   image: climate_viz.png
-  defaulturl: https://www.paulsvsp.co/projects/climate-change-opinion-visualization
+  defaulturl: https://sonalitandon24192.github.io/Info-Viz/
   tags: ["modeling", "python", "SQL", "data visualization", "scraping & transforming"]
   year: 2018
 
