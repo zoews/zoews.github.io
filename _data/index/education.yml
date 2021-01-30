@@ -1,7 +1,10 @@
+- name: Recurse Center
+  link: https://www.recurse.com
+  date: 2021
+
 - name: University of Michigan School of Information
   link: http://umsi.umich.edu/
   date: 2016-2018
-  descr: <br> (expected graduation in 2019)
 
 - name: Macalester College
   link: http://www.macalester.edu/

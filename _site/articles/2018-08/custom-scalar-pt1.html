@@ -10,7 +10,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="Scalar is a unique and powerful open source publishing platform. Its strength lies in its ability to combine linear and nonlinear methods of exploring media,...">
   <meta name="keywords" content="Programming, Python, Data Science, Data Librarian, Critical Data Literacies, Pinball, and Cats">
-  <meta name="author" content="Creating a custom network visualization using the Scalar API Explorer, Part 1 | Zoë Wilkinson Saldaña">
+  <meta name="author" content="Creating a custom network visualization using the Scalar API Explorer, Part 1 | Cass Wilkinson Saldaña">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f5f5f5">
 
@@ -45,7 +45,7 @@
   <link rel="stylesheet" href="http://localhost:4000/css/main.css">
 
   <link rel="canonical" href="http://localhost:4000/articles/2018-08/custom-scalar-pt1">
-  <link rel="alternate" type="application/rss+xml" title="Zoë Wilkinson Saldaña" href="http://localhost:4000 /feed.xml " />
+  <link rel="alternate" type="application/rss+xml" title="Cass Wilkinson Saldaña" href="http://localhost:4000 /feed.xml " />
 
   <!-- Icons -->
   <!-- 16x16 -->
@@ -65,7 +65,7 @@
   
   <img src="http://localhost:4000/img/zoews_square_small.jpg" alt="" class="avatar">
   
-  <a href="http://localhost:4000/" class="author_name">Zoë Wilkinson Saldaña</a>
+  <a href="http://localhost:4000/" class="author_name">Cass Wilkinson Saldaña</a>
   <span class="author_job">Data scienctist + data librarian</span>
   <span class="author_bio mbm"></span>
   <nav class="nav">
@@ -95,8 +95,9 @@
           <span>/</span>
         
       </li>
-           
+             
       <li class="nav-item"><a href="https://medium.com/messy-data" target="_blank">messy data blog</a> /</li>
+      <li class="nav-item"><a href="https://orcid.org/0000-0003-2209-037X" target="_blank">publications</a> /</li>
     </ul>
   </nav>
   <script type="text/javascript">
@@ -115,10 +116,10 @@
   <ul>
     
       <li>
-      <script>gen_mail_to_link('zoewsaldana@gmail.com', 'Hello from website');</script>
+      <script>gen_mail_to_link('cass.z.ws@gmail.com', 'Hello from website');</script>
       </li>
     
-    <li><a href="http://twitter.com/zoedottxt" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
+    <li><a href="http://twitter.com/mxcatnap" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
     
     
     
@@ -296,19 +297,19 @@
 <p>Next, we need a function to read the raw JSON dump from the Scalar API Explorer into a useful Python data structure. Below is a function that accepts JSON as input and returns the data as a dictionary for Python to use</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">loadScalarData</span><span class="p">(</span><span class="n">input_file</span><span class="p">):</span>
-    <span class="c"># loads JSON data exported from the Scalar API Explorer tool</span>
-    <span class="c"># and parses as a dictionary for further manipulation with Python here</span>
-
+    <span class="c1"># loads JSON data exported from the Scalar API Explorer tool
+</span>    <span class="c1"># and parses as a dictionary for further manipulation with Python here
+</span>
     <span class="n">data_for_output</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="s">"r"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">read_file</span><span class="p">:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_file</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_file</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="n">out_dict</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
             
-            <span class="c"># also add the name of the current dictionary to the dcitionary itself and assign to the key 'key'</span>
-            <span class="c"># (because we're outputting a list of dictionaries, the key name would be lost otherwise)</span>
-            <span class="n">out_dict</span><span class="p">[</span><span class="s">'key'</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
+            <span class="c1"># also add the name of the current dictionary to the dcitionary itself and assign to the key 'key'
+</span>            <span class="c1"># (because we're outputting a list of dictionaries, the key name would be lost otherwise)
+</span>            <span class="n">out_dict</span><span class="p">[</span><span class="s">'key'</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
             <span class="n">data_for_output</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_dict</span>
     
     <span class="k">return</span> <span class="n">data_for_output</span></code></pre></figure>
@@ -322,10 +323,10 @@
 <p>First, here is the function to generate a list of all tags and all (tagged) nodes:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">getTagsAndTaggedNodes</span><span class="p">(</span><span class="n">reference_dict</span><span class="p">,</span> <span class="n">excludeMedia</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-    <span class="c"># extracts all tags and pages that are tagged somewhere in the Scalar book</span>
-    <span class="c"># represents each item (tags/pages) as a dictionary</span>
-    <span class="c"># and returns a list for each item type</span>
-
+    <span class="c1"># extracts all tags and pages that are tagged somewhere in the Scalar book
+</span>    <span class="c1"># represents each item (tags/pages) as a dictionary
+</span>    <span class="c1"># and returns a list for each item type
+</span>
     <span class="n">tags_for_network_links</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">tagged_pages_for_network_nodes</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -336,23 +337,23 @@
             <span class="n">body</span> <span class="o">=</span> <span class="n">current_item</span><span class="p">[</span><span class="s">'http://www.openannotation.org/ns/hasBody'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'value'</span><span class="p">]</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">current_item</span><span class="p">[</span><span class="s">'http://www.openannotation.org/ns/hasTarget'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'value'</span><span class="p">]</span>
 
-            <span class="c"># ignore tags here that involve media nodes (almost always images)</span>
-            <span class="k">if</span> <span class="n">excludeMedia</span><span class="p">:</span>
+            <span class="c1"># ignore tags here that involve media nodes (almost always images)
+</span>            <span class="k">if</span> <span class="n">excludeMedia</span><span class="p">:</span>
                 <span class="k">if</span> <span class="s">'media'</span> <span class="ow">in</span> <span class="n">body</span> <span class="ow">or</span> <span class="s">'media'</span> <span class="ow">in</span> <span class="n">target</span><span class="p">:</span>
                     <span class="k">continue</span>
             
             <span class="k">if</span> <span class="n">body</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tagged_pages_for_network_nodes</span><span class="p">:</span>
-                <span class="n">tagged_pages_for_network_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+                <span class="n">tagged_pages_for_network_nodes</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">target</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tagged_pages_for_network_nodes</span><span class="p">:</span>
-                <span class="n">tagged_pages_for_network_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+                <span class="n">tagged_pages_for_network_nodes</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
             
             <span class="n">tag_dict</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s">'source'</span><span class="p">:</span> <span class="n">body</span><span class="p">,</span>
                 <span class="s">'target'</span><span class="p">:</span> <span class="n">target</span><span class="p">,</span>
             <span class="p">}</span>
             
-            <span class="n">tags_for_network_links</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag_dict</span><span class="p">)</span>
+            <span class="n">tags_for_network_links</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag_dict</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">tags_for_network_links</span><span class="p">,</span> <span class="n">tagged_pages_for_network_nodes</span></code></pre></figure>
 
@@ -376,12 +377,12 @@
 <p>Here is the function to gather all the data relevant for those tasks (which is the most complex of all functions we’ll use in Part 1):</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">parseNodes</span><span class="p">(</span><span class="n">scalar_data</span><span class="p">,</span> <span class="n">pages_identified_in_links</span><span class="p">):</span>
-    <span class="c"># fetch all relevant data about the pages and return as list of nodes</span>
-    <span class="c"># including checking for additional page data (text and embedded images)</span>
-    
-    <span class="c"># note - you may wish to modify these parameters to include significant data</span>
-    <span class="c"># scraping tags is more straightforward, whereas metadata categories/etc. will be specific to your Scalar book</span>
-
+    <span class="c1"># fetch all relevant data about the pages and return as list of nodes
+</span>    <span class="c1"># including checking for additional page data (text and embedded images)
+</span>    
+    <span class="c1"># note - you may wish to modify these parameters to include significant data
+</span>    <span class="c1"># scraping tags is more straightforward, whereas metadata categories/etc. will be specific to your Scalar book
+</span>
     <span class="n">list_of_parsed_nodes</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">pages_identified_in_links</span><span class="p">:</span>
         <span class="n">current_node_dict</span> <span class="o">=</span> <span class="n">scalar_data</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
@@ -392,27 +393,27 @@
         <span class="n">description</span> <span class="o">=</span> <span class="s">""</span>
         <span class="n">extraData</span> <span class="o">=</span> <span class="s">"no"</span>
 
-        <span class="c"># look for reference to media</span>
-        <span class="n">references</span> <span class="o">=</span> <span class="n">current_node_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"http://purl.org/dc/terms/references"</span><span class="p">)</span>
+        <span class="c1"># look for reference to media
+</span>        <span class="n">references</span> <span class="o">=</span> <span class="n">current_node_dict</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"http://purl.org/dc/terms/references"</span><span class="p">)</span>
         <span class="n">imageURL</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="n">description</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">if</span> <span class="n">references</span><span class="p">:</span>
             <span class="k">if</span> <span class="s">"media"</span> <span class="ow">in</span> <span class="n">references</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">"value"</span><span class="p">]:</span>
-                <span class="c"># if reference to media found, fetch URL and description from media page</span>
-                <span class="c"># using BeautifulSoup to parse the HTML descriptions</span>
-                <span class="n">content</span> <span class="o">=</span> <span class="n">scalar_data</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s">"http://rdfs.org/sioc/ns#content"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'value'</span><span class="p">]</span>
+                <span class="c1"># if reference to media found, fetch URL and description from media page
+</span>                <span class="c1"># using BeautifulSoup to parse the HTML descriptions
+</span>                <span class="n">content</span> <span class="o">=</span> <span class="n">scalar_data</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s">"http://rdfs.org/sioc/ns#content"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'value'</span><span class="p">]</span>
                 <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s">"html.parser"</span><span class="p">)</span>
-                <span class="n">imageURL</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">"a"</span><span class="p">)[</span><span class="s">"href"</span><span class="p">]</span>
-                <span class="n">description</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">text</span>
+                <span class="n">imageURL</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">"a"</span><span class="p">)[</span><span class="s">"href"</span><span class="p">]</span>
+                <span class="n">description</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="n">text</span>
 
-                <span class="c"># ceate an abbreviated description (to encourage users to go to Scalar for full description)</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">description</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">80</span><span class="p">:</span>
+                <span class="c1"># ceate an abbreviated description (to encourage users to go to Scalar for full description)
+</span>                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">description</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">80</span><span class="p">:</span>
                     <span class="n">description</span> <span class="o">=</span> <span class="n">description</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">]</span> <span class="o">+</span> <span class="s">"..."</span>
         
-        <span class="c"># when directing the user to the Scalar page via the "url" attribute in the visualization</span>
-        <span class="c"># we can ignore the extra version suffix, such as "cafe_central.4" and simply send them to</span>
-        <span class="c"># "cafe_central" -- otherwise Scalar may omit the page description (for some reason)</span>
-        <span class="k">if</span> <span class="n">url</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">'.'</span><span class="p">:</span>
+        <span class="c1"># when directing the user to the Scalar page via the "url" attribute in the visualization
+</span>        <span class="c1"># we can ignore the extra version suffix, such as "cafe_central.4" and simply send them to
+</span>        <span class="c1"># "cafe_central" -- otherwise Scalar may omit the page description (for some reason)
+</span>        <span class="k">if</span> <span class="n">url</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">'.'</span><span class="p">:</span>
             <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">url</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s">'.'</span><span class="p">:</span>
             <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
@@ -420,24 +421,24 @@
             <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
         
         <span class="k">try</span><span class="p">:</span>
-            <span class="c"># make sure the node is fetching the name correctly, assign to _name</span>
-            <span class="n">_name</span> <span class="o">=</span> <span class="n">current_node_dict</span><span class="p">[</span><span class="s">'http://purl.org/dc/terms/title'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'value'</span><span class="p">]</span>
+            <span class="c1"># make sure the node is fetching the name correctly, assign to _name
+</span>            <span class="n">_name</span> <span class="o">=</span> <span class="n">current_node_dict</span><span class="p">[</span><span class="s">'http://purl.org/dc/terms/title'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'value'</span><span class="p">]</span>
 
         <span class="k">except</span><span class="p">:</span>
             <span class="n">_name</span> <span class="o">=</span> <span class="n">node</span>
 
-        <span class="c"># assemble a dictionary to describe the current node</span>
-        <span class="n">node_out</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="c1"># assemble a dictionary to describe the current node
+</span>        <span class="n">node_out</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">'id'</span> <span class="p">:</span> <span class="n">_id</span><span class="p">,</span>
             <span class="s">'name'</span> <span class="p">:</span> <span class="n">_name</span><span class="p">,</span>
             <span class="s">'url'</span> <span class="p">:</span> <span class="n">url</span><span class="p">,</span>
             <span class="s">'colour'</span><span class="p">:</span>	<span class="s">"#2a2a2a"</span>
         <span class="p">}</span>
 
-        <span class="c"># optional imageURL and description paramaters for the nodes, if the pages include this data</span>
-        <span class="c"># will also include an "extraData" parameter to indicate if either attribute exists, for use by</span>
-        <span class="c"># the network viz later on</span>
-        <span class="k">if</span> <span class="n">imageURL</span><span class="p">:</span>
+        <span class="c1"># optional imageURL and description paramaters for the nodes, if the pages include this data
+</span>        <span class="c1"># will also include an "extraData" parameter to indicate if either attribute exists, for use by
+</span>        <span class="c1"># the network viz later on
+</span>        <span class="k">if</span> <span class="n">imageURL</span><span class="p">:</span>
             <span class="n">node_out</span><span class="p">[</span><span class="s">"imageURL"</span><span class="p">]</span> <span class="o">=</span> <span class="n">imageURL</span>
             <span class="n">extraData</span> <span class="o">=</span> <span class="s">"yes"</span>
         <span class="k">if</span> <span class="n">description</span><span class="p">:</span>
@@ -445,7 +446,7 @@
             <span class="n">extraData</span> <span class="o">=</span> <span class="s">"yes"</span>
         <span class="n">node_out</span><span class="p">[</span><span class="s">"extraData"</span><span class="p">]</span> <span class="o">=</span> <span class="n">extraData</span>
 
-        <span class="n">list_of_parsed_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node_out</span><span class="p">)</span>
+        <span class="n">list_of_parsed_nodes</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">node_out</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">list_of_parsed_nodes</span></code></pre></figure>
 
@@ -474,34 +475,34 @@
 <p>First, we need to generate the scores. Luckily, the NetworkX network analysis package in Python has a pithy way to accomplish this goal. Below is a function using NetworkX (which we imported to our program as <strong>nx</strong>) to generate scores:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">generateBetweennessCentrality</span><span class="p">(</span><span class="n">final_list_links</span><span class="p">,</span> <span class="n">final_list_nodes</span><span class="p">):</span>
-    <span class="c"># use networkx to generate betweennenss centrality for nodes and return as dict</span>
-
+    <span class="c1"># use networkx to generate betweennenss centrality for nodes and return as dict
+</span>
     <span class="n">nodes_for_nx</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="p">[</span><span class="s">'id'</span><span class="p">]</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">final_list_nodes</span><span class="p">]</span>
     <span class="n">edges_for_nx</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">[</span><span class="s">'source'</span><span class="p">],</span><span class="n">n</span><span class="p">[</span><span class="s">'target'</span><span class="p">])</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">final_list_links</span><span class="p">]</span>
 
-    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
-    <span class="n">G</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">nodes_for_nx</span><span class="p">)</span>
-    <span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">edges_for_nx</span><span class="p">)</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="p">.</span><span class="n">Graph</span><span class="p">()</span>
+    <span class="n">G</span><span class="p">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">nodes_for_nx</span><span class="p">)</span>
+    <span class="n">G</span><span class="p">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">edges_for_nx</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">nx</span><span class="o">.</span><span class="n">betweenness_centrality</span><span class="p">(</span><span class="n">G</span><span class="p">)</span></code></pre></figure>
+    <span class="k">return</span> <span class="n">nx</span><span class="p">.</span><span class="n">betweenness_centrality</span><span class="p">(</span><span class="n">G</span><span class="p">)</span></code></pre></figure>
 
 <p>At this part of the process, you may wish to add even more network analysis measures. If you’re curious, NetworkX also includes a rudimentary <a href="https://networkx.github.io/documentation/networkx-1.10/reference/drawing.html">network viz drawing tool</a>, which would help you generate a visualization directly from Python! However, D3 is much more capable at generating pretty and interactive visualizations, as you will see (I hope!) in Part 2.</p>
 
 <p>We also need to write one more piece of functionality: adding the betweenness centrality scores of our nodes to our list of node dictionaries. This is slightly inconvenient given the way we’ve structured our node data as a list of dictionanries (in a more complex program, it might be a good time to ask the question: should I have created classes at some point?) Here, we can iterate over each node in our list, add the attribute, and reassemble and return our new list:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">addBetweennessCentralityToNodes</span><span class="p">(</span><span class="n">betweenness_centrality_scores</span><span class="p">,</span> <span class="n">final_list_links</span><span class="p">,</span> <span class="n">final_list_nodes</span><span class="p">):</span>
-    <span class="c"># add BC scores as a new parameter, 'betweeness_centrality_score'</span>
-    <span class="c"># as an integar between 0 and 100 to use in network viz (as font size, etc.)</span>
-
+    <span class="c1"># add BC scores as a new parameter, 'betweeness_centrality_score'
+</span>    <span class="c1"># as an integar between 0 and 100 to use in network viz (as font size, etc.)
+</span>
     <span class="n">final_output</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">final_output</span><span class="p">[</span><span class="s">'links'</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_list_links</span>
     <span class="n">final_output</span><span class="p">[</span><span class="s">'nodes'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">final_list_nodes</span><span class="p">:</span>
         <span class="n">current_bc_score</span> <span class="o">=</span> <span class="n">betweenness_centrality_scores</span><span class="p">[</span><span class="n">node</span><span class="p">[</span><span class="s">'id'</span><span class="p">]]</span>
-        <span class="c"># let's convnert this percentage value to an integer between 0 to 100, roundng up </span>
-        <span class="n">node</span><span class="p">[</span><span class="s">'betweenness_centrality_score'</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">current_bc_score</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
-        <span class="n">final_output</span><span class="p">[</span><span class="s">'nodes'</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="c1"># let's convnert this percentage value to an integer between 0 to 100, roundng up 
+</span>        <span class="n">node</span><span class="p">[</span><span class="s">'betweenness_centrality_score'</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="p">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">current_bc_score</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="n">final_output</span><span class="p">[</span><span class="s">'nodes'</span><span class="p">].</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_output</span></code></pre></figure>
 
@@ -515,27 +516,27 @@
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
 
-    <span class="c"># set filenames for input .json (from Scalar API explorer) and output .json</span>
-    <span class="n">input_file</span> <span class="o">=</span> <span class="s">"scalar_output.json"</span>
+    <span class="c1"># set filenames for input .json (from Scalar API explorer) and output .json
+</span>    <span class="n">input_file</span> <span class="o">=</span> <span class="s">"scalar_output.json"</span>
     <span class="n">output_file</span> <span class="o">=</span> <span class="s">"clean_scalar_data.json"</span>
 
-    <span class="c"># load Scalar data .json file into Python data</span>
-    <span class="n">scalar_data_dict</span> <span class="o">=</span> <span class="n">loadScalarData</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+    <span class="c1"># load Scalar data .json file into Python data
+</span>    <span class="n">scalar_data_dict</span> <span class="o">=</span> <span class="n">loadScalarData</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
 
-    <span class="c"># generate final list of links and nodes</span>
-    <span class="n">final_links</span><span class="p">,</span> <span class="n">linked_pages</span> <span class="o">=</span> <span class="n">getTagsAndTaggedNodes</span><span class="p">(</span><span class="n">scalar_data_dict</span><span class="p">)</span>
+    <span class="c1"># generate final list of links and nodes
+</span>    <span class="n">final_links</span><span class="p">,</span> <span class="n">linked_pages</span> <span class="o">=</span> <span class="n">getTagsAndTaggedNodes</span><span class="p">(</span><span class="n">scalar_data_dict</span><span class="p">)</span>
     <span class="n">final_nodes</span> <span class="o">=</span> <span class="n">parseNodes</span><span class="p">(</span><span class="n">scalar_data_dict</span><span class="p">,</span> <span class="n">linked_pages</span><span class="p">)</span>
 
-    <span class="c"># generate betweenness centrality scores for nodes using NetworkX </span>
-    <span class="n">betweenness_centrality_scores</span> <span class="o">=</span> <span class="n">generateBetweennessCentrality</span><span class="p">(</span><span class="n">final_links</span><span class="p">,</span> <span class="n">final_nodes</span><span class="p">)</span>
+    <span class="c1"># generate betweenness centrality scores for nodes using NetworkX 
+</span>    <span class="n">betweenness_centrality_scores</span> <span class="o">=</span> <span class="n">generateBetweennessCentrality</span><span class="p">(</span><span class="n">final_links</span><span class="p">,</span> <span class="n">final_nodes</span><span class="p">)</span>
 
-    <span class="c"># one final step to collect links and nodes (with betweenness-centrality scores added) into a single dictionary</span>
-    <span class="c"># (this is assuming this is the most useful way to pass the data to a network visaulization</span>
-    <span class="c"># BUT you may wish to modify or rewrite this function if your visualization calls for another way to organize)</span>
-    <span class="n">final_output</span> <span class="o">=</span> <span class="n">addBetweennessCentralityToNodes</span><span class="p">(</span><span class="n">betweenness_centrality_scores</span><span class="p">,</span> <span class="n">final_links</span><span class="p">,</span> <span class="n">final_nodes</span><span class="p">)</span>
+    <span class="c1"># one final step to collect links and nodes (with betweenness-centrality scores added) into a single dictionary
+</span>    <span class="c1"># (this is assuming this is the most useful way to pass the data to a network visaulization
+</span>    <span class="c1"># BUT you may wish to modify or rewrite this function if your visualization calls for another way to organize)
+</span>    <span class="n">final_output</span> <span class="o">=</span> <span class="n">addBetweennessCentralityToNodes</span><span class="p">(</span><span class="n">betweenness_centrality_scores</span><span class="p">,</span> <span class="n">final_links</span><span class="p">,</span> <span class="n">final_nodes</span><span class="p">)</span>
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="s">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">write_file</span><span class="p">:</span>
-        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">final_output</span><span class="p">,</span> <span class="n">write_file</span><span class="p">)</span>
+        <span class="n">json</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="n">final_output</span><span class="p">,</span> <span class="n">write_file</span><span class="p">)</span>
         <span class="k">print</span><span class="p">(</span><span class="s">'clean data successfully written to disk as "clean_scalar_data.json"'</span><span class="p">)</span>
 
 
@@ -587,7 +588,7 @@
 
 
         <footer>
-  &copy; 2019 Zoë Wilkinson Saldaña. Powered by <a href="http://jekyllrb.com/">Jekyll</a>, <a href="http://github.com/renyuanz/leonids/">leonids theme</a> made with <i class="fa fa-heart heart-icon"></i>
+  &copy; 2021 Cass Wilkinson Saldaña. Powered by <a href="http://jekyllrb.com/">Jekyll</a>, <a href="http://github.com/renyuanz/leonids/">leonids theme</a> made with <i class="fa fa-heart heart-icon"></i>
 </footer>
 
       </div>

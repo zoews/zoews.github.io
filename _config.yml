@@ -33,13 +33,13 @@ kramdown:
 ####################################
 #
 owner:
-  name: Zoë Wilkinson Saldaña
+  name: Cass Wilkinson Saldaña
   avatar: zoews_square_small.jpg
   job: "Data scienctist + data librarian"
   # bio: "Data, cats, pinball, Python, NLP"
-  email: zoewsaldana@gmail.com
+  email: cass.z.ws@gmail.com
 #   disqus-shortname: renyuanzblog
-  twitter: zoedottxt #username
+  twitter: mxcatnap #username
   facebook: #username
   google:
     plus: #username

@@ -1,8 +1,14 @@
 # careers section data
 # if you don't have language feature(language.yml is empty), ignore "i18n" items
+- name: Children's Hospital of Philadelphia
+  site: https://education.arcus.chop.edu
+  date: 2019 - Now
+  job: Data Instructional Specialist
+
+    
 - name: Cornell University
   link: https://olinuris.library.cornell.edu/about/departments-staff/research-learning-services
-  date: 2018 - Now
+  date: 2018 - 2019
   job: Social Science and Geospatial Data Librarian
 
 - name: University of Michigan
