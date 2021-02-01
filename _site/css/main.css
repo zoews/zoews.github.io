@@ -189,7 +189,7 @@ footer { text-align: center; padding: 3em 0; }
 footer .heart-icon { color: #f83e4b; text-shadow: 0 0 5px #fff, 0 0 10px #f83e4b; }
 
 .related-articles { margin-top: 2em; }
-.related-articles h4 { font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.related-articles h4 { font-family: "Roboto Mono", "Courier New", monospace; }
 .related-articles ul { margin: 0; padding: 0; list-style: none; }
 
 .row .col.offset-l1 { margin-left: 5.555556% !important; }
@@ -242,25 +242,25 @@ footer .heart-icon { color: #f83e4b; text-shadow: 0 0 5px #fff, 0 0 10px #f83e4b
 
 .mlm { margin-left: 0.5em; }
 
-.m1 { margin: 1.5em; }
+.m1 { margin: 1.8em; }
 
-.mt1 { margin-top: 1.5em; }
+.mt1 { margin-top: 1.8em; }
 
-.mb1 { margin-bottom: 1.5em; }
+.mb1 { margin-bottom: 1.8em; }
 
-.mr1 { margin-right: 1.5em; }
+.mr1 { margin-right: 1.8em; }
 
-.ml1 { margin-left: 1.5em; }
+.ml1 { margin-left: 1.8em; }
 
-.m2 { margin: 3em; }
+.m2 { margin: 3.6em; }
 
-.mt2 { margin-top: 3em; }
+.mt2 { margin-top: 3.6em; }
 
-.mb2 { margin-bottom: 3em; }
+.mb2 { margin-bottom: 3.6em; }
 
-.mr2 { margin-right: 3em; }
+.mr2 { margin-right: 3.6em; }
 
-.ml2 { margin-left: 3em; }
+.ml2 { margin-left: 3.6em; }
 
 .p0 { padding: 0; }
 
@@ -445,7 +445,7 @@ footer .heart-icon { color: #f83e4b; text-shadow: 0 0 5px #fff, 0 0 10px #f83e4b
   .row .col.offset-l12 { margin-left: 100%; } }
 
 /* ========================================================================== Typography ========================================================================== */
-html { line-height: 1.5; font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: normal; color: rgba(0, 0, 0, 0.87); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; font-size: 16px; }
+html { line-height: 1.8; font-family: "Roboto Mono", "Courier New", monospace; font-weight: normal; color: rgba(0, 0, 0, 0.87); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; font-size: 15px; }
 
 blockquote { display: block; position: relative; padding-left: 20px; font-style: italic; border-left: 5px solid #8d7edc; }
 
@@ -480,7 +480,7 @@ small, .small { font-size: 80%; font-weight: normal; }
 p { margin: 1.2em 0; word-spacing: 0.05em; line-height: 1.6em; }
 
 /* Buttons ========================================================================== */
-.btn { display: inline-block; margin-bottom: 20px; padding: 8px 20px; font-size: 0.875em; font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; background-color: #09ABF6; color: #fff; border-width: 2px !important; border-style: solid !important; border-color: #09ABF6; text-decoration: none !important; border-radius: 5px; }
+.btn { display: inline-block; margin-bottom: 20px; padding: 8px 20px; font-size: 0.875em; font-family: "Roboto Mono", "Courier New", monospace; font-weight: 700; background-color: #09ABF6; color: #fff; border-width: 2px !important; border-style: solid !important; border-color: #09ABF6; text-decoration: none !important; border-radius: 5px; }
 .btn:visited { color: #fff; border-color: #09ABF6; }
 .btn:hover { background-color: #fff; color: #09ABF6; border-color: #09ABF6; }
 
@@ -501,11 +501,11 @@ p { margin: 1.2em 0; word-spacing: 0.05em; line-height: 1.6em; }
 .btn-info:hover { background-color: #fff; color: #42b983; border-color: #42b983; }
 
 /* ========================================================================== Syntax highlighting ========================================================================== */
-pre, code { font-family: "Roboto Mono", "Courier New", monospace; color: #525252; font-size: 0.9em; background-color: #f8f8f8; font-size: 13px; }
+pre, code { font-family: "Roboto Mono", "Courier New", monospace; color: #525252; font-size: 0.9em; background-color: #f8f8f8; font-size: 12px; }
 
 code { color: #e96900; border-radius: 2px; white-space: nowrap; }
 
-pre { overflow: auto; display: block; padding: 1em; margin: 0 0 1em; line-height: 1.3875; word-break: break-all; word-wrap: break-word; border-radius: 0; font-weight: normal; }
+pre { overflow: auto; display: block; padding: 1em; margin: 0 0 1em; line-height: 1.665; word-break: break-all; word-wrap: break-word; border-radius: 0; font-weight: normal; }
 
 pre code { background: transparent; white-space: pre; overflow: auto; word-wrap: normal; color: #525252; }
 pre code span { word-break: break-all; }

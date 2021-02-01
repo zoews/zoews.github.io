@@ -24,10 +24,10 @@ $border-width:               .0625rem !default;
 $font-family-sans-serif:     "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 $font-family-serif:          Georgia, "Times New Roman", Times, serif !default;
 $font-family-monospace:      "Roboto Mono", "Courier New", monospace !default;
-$font-family-base:           $font-family-sans-serif !default;
+$font-family-base:           $font-family-monospace !default;
 
 // Pixel value used to responsively scale all typography. Applied to the `<html>` element.
-$font-size-root:             16px !default;
+$font-size-root:             15px !default;
 
 $font-size-base:             $font-size-root !default;
 $font-size-lg:               $font-size-root * 1.25 !default;
@@ -41,8 +41,8 @@ $font-size-h4:               1.25rem !default;
 $font-size-h5:               1.15rem !default;
 $font-size-h6:               1rem !default;
 
-$base-line-height:            1.5;
-$base-space-unit:             1.5em;
+$base-line-height:            1.8;
+$base-space-unit:             1.8em;
 
 $hr-border-color:             rgba(0,0,0,.1) !default;
 $hr-border-width:             $border-width;
