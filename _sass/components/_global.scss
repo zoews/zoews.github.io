@@ -20,6 +20,13 @@ img {
   border:1px solid #dddddd;
 }
 
+a {
+    text-decoration: underline !important;
+}
+a:hover {
+    text-decoration: none !important;
+}
+
 // Tables
 table,
 th,
