@@ -8,6 +8,7 @@ image:
   feature: scalar-network/network_viz_header.jpeg
 modified: 2018-08-21
 comments: true
+featured: "yes"
 ---
 
 [Scalar](https://scalar.me/anvc/scalar/) is a unique and powerful open source publishing platform. Its strength lies in its ability to combine linear and nonlinear methods of exploring media, narratives, annotations, and scholarship within the single organizing structure of a **book**. Scalar also provides [several out-of-the-box options](http://scalar.usc.edu/works/guide2/visualizations?path=index) to visualize your data - including as an interactive network visualization.

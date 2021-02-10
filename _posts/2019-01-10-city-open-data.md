@@ -7,6 +7,7 @@ comments: true
 image:
 full: false
 summary: Messy Data
+featured: "yes"
 ---
 
 <a href="https://medium.com/messy-data/stories-from-the-city-stories-from-the-cloud-an-introduction-to-city-open-data-portals-in-the-636ab60500bc">![bar chart showing number of datasets in open data portal for cities with top fifteen highest Census ratings.]({{ site.url }}/img/stories_from_city.png)</a>

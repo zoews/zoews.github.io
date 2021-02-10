@@ -8,6 +8,7 @@ full: true
 image:
   feature: harassment/header.png
 summary: A cautious introduction to NLP and Machine Learning methods in analyzing thousands of anonymous sexual harassment & assault reports.
+featured: "yes"
 ---
 
 *A cautious introduction to NLP and Machine Learning methods in analyzing thousands of anonymous sexual harassment & assault reports.* 

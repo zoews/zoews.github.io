@@ -157,6 +157,10 @@ td, th { padding: 0; }
 
 img { display: block; max-width: 90%; margin-left: auto; margin-right: auto; padding: 6px; border: 1px solid #dddddd; }
 
+a { text-decoration: underline !important; }
+
+a:hover { text-decoration: none !important; }
+
 table, th, td { border: none; }
 
 .table { display: table; }
