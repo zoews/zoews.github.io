@@ -5,9 +5,9 @@
 #
 title: Cass Wilkinson Saldaña
 email: cass.z.ws@gmail.com
-description: Data librarian & data scientist 
+description: Data librarian &  open source developer
 url: https://www.cassws.net # the base hostname & protocol for your site
-keywords: ["Programming", "Python", "Data Science", "Data Librarian", "Critical Data Literacies", "Pinball", "Cats"]
+keywords: ["Programming", "Python", "Data Science", "Data Librarian", "Critical Data Literacies", "Messy Data", "Pinball", "Cats"]
 
 #
 ###################################
@@ -35,7 +35,7 @@ kramdown:
 owner:
   name: Cass Wilkinson Saldaña
   avatar: zoews_square_small.jpg
-  job: "Data scienctist + data librarian"
+  job: "Data scientist + open source developer"
   # bio: "Data, cats, pinball, Python, NLP"
   email: cass.z.ws@gmail.com
 #   disqus-shortname: renyuanzblog
