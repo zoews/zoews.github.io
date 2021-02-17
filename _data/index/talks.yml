@@ -1,0 +1,20 @@
+- name: "Learning Iteratively, Learning Collaboratively: Lessons from a Rapid-deployment Data Education Webinar Series during COVID-19"
+  descr: "This video is part of the R/Medicine 2020 Virtual Conference"
+  image: talk_r_medicine.jpg
+  defaulturl: https://www.youtube.com/watch?v=aYIhubBiwZY
+  tags: ["r", "data education", "biomedical research"]
+  year: 2020
+
+- name: "Engaging learners in critical data science practices"
+  descr: "I presented as part of the PyCon 2020 Education Summit! My talk begins at 45:00 in this recording."
+  image: talk_pycon_edu.jpg
+  defaulturl: https://www.youtube.com/watch?t=2696
+  tags: ["python", "data education", "critical data science"]
+  year: 2020
+
+- name: "Introduction to Data Visualization with Tableau"
+  descr: "This video was part of the Research from Start to Publish 2019 three-day intensive for STEM graduate students at Cornell. I've given different versions of data visualization workshops over the years, and this is one particularly interactive/live code-y version :)"
+  image: talk_cornell.jpg
+  defaulturl: https://www.youtube.com/watch?v=Tf7N6xS4RVQ
+  tags: ["data visualization", "data education", "Tableau"]
+  year: 2019

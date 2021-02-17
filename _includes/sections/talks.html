@@ -1,0 +1,44 @@
+<div class="row">
+    <div class ="col l7">
+        <h1><span data-i18n="skills.my_skills">Talks + selected workshops</span></h1>
+    </div>
+<!--    <div class ="col l2 offset-l1">
+            <h1><span data-i18n="skills.my_skills">Keywords</span></h1>
+        </div> -->
+
+</div>
+
+{% for project in site.data.index.talks %}
+    <div class="row">
+       <div class="col l8">
+                {% if project.image %}
+                    <a href="{{ project.defaulturl }} " target="_blank"><img src="../img/{{ project.image }}" style="float:left; margin:10px 15px 15px 15px; border:2px solid #021a40;"></a>
+                {% endif %}
+                <a href="{{ project.defaulturl }} "><h4 style="margin: 0">{{ project.name }}  [{{ project.year }}]</h4></a>
+                <p style="margin: 0">{{ project.descr }} </p>
+
+                <!-- {% if project.website %}
+                   <b><a href="{{ project.website }} ">Project</a></b>&ensp; &ensp; &ensp; &ensp; 
+                {% endif %}
+                {% if project.post %}
+                <b><a href="{{ project.post }} ">Essay/tutorial</a></b> &ensp; &ensp; &ensp; &ensp;
+                {% endif %}
+                {% if project.github %}
+                    <b><a href="{{ project.github }} ">GitHub repo</a></b>
+                {% endif %} -->
+
+                <br>
+
+            </div>
+        <div class="col l2 offset-l1">
+            <br >
+            {% if project.tags %}
+                {% for tag in project.tags %}
+                <span class="project_tag" name= "{{ tag }}"> {{ tag }} </span>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+    <hr >
+{% endfor %}
